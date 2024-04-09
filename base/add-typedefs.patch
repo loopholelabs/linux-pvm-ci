@@ -1,0 +1,24 @@
+diff --git a/arch/x86/include/uapi/asm/pvm_para.h b/arch/x86/include/uapi/asm/pvm_para.h
+index 36aedfa2c..af4e69cc6 100644
+--- a/arch/x86/include/uapi/asm/pvm_para.h
++++ b/arch/x86/include/uapi/asm/pvm_para.h
+@@ -4,6 +4,10 @@
+ 
+ #include <linux/const.h>
+ 
++typedef unsigned long long u64;
++typedef unsigned int u32;
++typedef unsigned short u16;
++
+ /*
+  * The CPUID instruction in PVM guest can't be trapped and emulated,
+  * so PVM guest should use the following two instructions instead:
+@@ -116,7 +120,7 @@ struct pvm_vcpu_struct {
+  * with the following frame format from the stack to restore the old context.
+  */
+ struct pvm_supervisor_event {
+-	unsigned long errcode; // vector in high32
++	unsigned long errcode;
+ 	unsigned long rip;
+ 	unsigned long cs;
+ 	unsigned long rflags;
