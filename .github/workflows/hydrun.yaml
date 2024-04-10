@@ -5,7 +5,7 @@ on:
 
 jobs:
   build-linux:
-    runs-on: warp-ubuntu-latest-x64-32x
+    runs-on: warp-ubuntu-latest-x64-8x
     strategy:
       matrix:
         target:
