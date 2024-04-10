@@ -52,11 +52,11 @@ package/fedora/hetzner:
 	createrepo out/fedora/hetzner
 	gpg --detach-sign --armor --default-key $(shell echo ${PGP_KEY_ID_BASE64} | base64 -d) "out/fedora/hetzner/repodata/repomd.xml"
 	gpg --output "out/fedora/hetzner/repodata/repo.asc" --armor --export --default-key $(shell echo ${PGP_KEY_ID_BASE64} | base64 -d)
-	echo "[linux-pvm-ci]\
-	name=Linux PVM Repository\
-	baseurl=https://loopholelabs.github.io/linux-pvm-ci/fedora/hetzner\
-	enabled=1\
-	gpgcheck=1\
+	printf "[linux-pvm-ci]\n\
+	name=Linux PVM Repository\n\
+	baseurl=https://loopholelabs.github.io/linux-pvm-ci/fedora/hetzner\n\
+	enabled=1\n\
+	gpgcheck=1\n\
 	gpgkey=https://loopholelabs.github.io/linux-pvm-ci/fedora/hetzner/repodata/repo.asc" > "out/fedora/hetzner/repodata/linux-pvm-ci.repo"
 
 clean: $(addprefix clean/,$(obj))
