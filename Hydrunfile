@@ -27,6 +27,13 @@ gpg --import /tmp/private.pgp
 echo "%_signature gpg
 %_gpg_name $(echo ${PGP_KEY_ID} | base64 -d)" >"${HOME}/.rpmmacros"
 
+# Configure ccache
+ccache -F 0
+ccache -M 0
+
+# Get ccache stats
+ccache -s
+
 # Get kernel source
 make clone
 
@@ -40,3 +47,6 @@ make -j$(nproc) "build/${1}/${2}"
 
 # Package kernel
 make -j$(nproc) "package/${1}/${2}" PGP_KEY_ID="${PGP_KEY_ID}"
+
+# Get ccache stats
+ccache -s

@@ -5,26 +5,26 @@ on:
 
 jobs:
   build-linux:
-    runs-on: ubuntu-latest-m
+    runs-on: ubuntu-latest-xl
     strategy:
       matrix:
         target:
           - id: fedora-hetzner
             src: .
             os: fedora:39
-            flags: ""
+            flags: -e "-v ${HOME}/.cache/ccache:/root/.cache/ccache"
             cmd: ./Hydrunfile fedora hetzner
             dst: out/*
           - id: rocky-hetzner
             src: .
             os: fedora:39
-            flags: ""
+            flags: -e "-v ${HOME}/.cache/ccache:/root/.cache/ccache"
             cmd: ./Hydrunfile rocky hetzner
             dst: out/*
           - id: alma-hetzner
             src: .
             os: fedora:39
-            flags: ""
+            flags: -e "-v ${HOME}/.cache/ccache:/root/.cache/ccache"
             cmd: ./Hydrunfile alma hetzner
             dst: out/*
 
@@ -44,6 +44,12 @@ jobs:
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
+      - name: Restore ccache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            /home/runner/.cache/ccache
+          key: ccache-${{ matrix.target.id }}
       - name: Set up hydrun
         run: |
           curl -L -o /tmp/hydrun "https://github.com/pojntfx/hydrun/releases/latest/download/hydrun.linux-$(uname -m)"
@@ -55,6 +61,12 @@ jobs:
           PGP_KEY_PASSWORD: ${{ secrets.PGP_KEY_PASSWORD }}
           PGP_KEY_ID: ${{ secrets.PGP_KEY_ID }}
         run: hydrun -o ${{ matrix.target.os }} ${{ matrix.target.flags }} "PGP_KEY=${PGP_KEY} PGP_KEY_PASSWORD=${PGP_KEY_PASSWORD} PGP_KEY_ID=${PGP_KEY_ID} ${{ matrix.target.cmd }}"
+      - name: Save ccache
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            /home/runner/.cache/ccache
+          key: ccache-${{ matrix.target.id }}
       - name: Upload output
         uses: actions/upload-artifact@v2
         with:
@@ -62,7 +74,7 @@ jobs:
           path: ${{ matrix.target.dst }}
 
   publish-linux:
-    runs-on: ubuntu-latest-m
+    runs-on: ubuntu-latest-xl
     needs: build-linux
 
     steps:
