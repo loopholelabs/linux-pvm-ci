@@ -5,7 +5,7 @@ on:
 
 jobs:
   build-linux:
-    runs-on: warp-ubuntu-latest-x64-8x
+    runs-on: buildjet-32vcpu-ubuntu-2204
     strategy:
       matrix:
         target:
@@ -74,7 +74,7 @@ jobs:
           path: ${{ matrix.target.dst }}
 
   publish-linux:
-    runs-on: warp-ubuntu-latest-x64-32x
+    runs-on: buildjet-32vcpu-ubuntu-2204
     needs: build-linux
 
     steps:
