@@ -2,13 +2,10 @@ name: hydrun CI
 
 on:
   push:
-  pull_request:
-  schedule:
-    - cron: "0 0 * * 0"
 
 jobs:
   build-linux:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-m
     strategy:
       matrix:
         target:
@@ -20,13 +17,13 @@ jobs:
             dst: out/*
           - id: rocky-hetzner
             src: .
-            os: rockylinux:9
+            os: fedora:39
             flags: ""
             cmd: ./Hydrunfile rocky hetzner
             dst: out/*
           - id: alma-hetzner
             src: .
-            os: almalinux:9
+            os: fedora:39
             flags: ""
             cmd: ./Hydrunfile alma hetzner
             dst: out/*
@@ -65,7 +62,7 @@ jobs:
           path: ${{ matrix.target.dst }}
 
   publish-linux:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-m
     needs: build-linux
 
     steps:
