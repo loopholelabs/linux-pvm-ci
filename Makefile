@@ -63,15 +63,15 @@ $(addprefix build/post/,$(obj)):
 	cp work/$(subst build/post/,,$@)/linux/rpmbuild/RPMS/x86_64/*.rpm out/$(subst build/post/,,$@)
 
 build/fedora/hetzner: build/pre/fedora/hetzner
-	cd work/fedora/hetzner/linux && yes "" | CC="ccache gcc" $(MAKE) LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-fedora-hetzner rpm-pkg
+	cd work/fedora/hetzner/linux && yes "" | $(MAKE) LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-fedora-hetzner rpm-pkg
 	$(MAKE) build/post/fedora/hetzner
 
 build/rocky/hetzner: build/pre/rocky/hetzner
-	cd work/rocky/hetzner/linux && yes "" | CC="ccache gcc" $(MAKE) LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-rocky-hetzner rpm-pkg
+	cd work/rocky/hetzner/linux && yes "" | $(MAKE) LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-rocky-hetzner rpm-pkg
 	$(MAKE) build/post/rocky/hetzner
 
 build/alma/hetzner: build/pre/alma/hetzner
-	cd work/alma/hetzner/linux && yes "" | CC="ccache gcc" $(MAKE) LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-alma-hetzner rpm-pkg
+	cd work/alma/hetzner/linux && yes "" | $(MAKE) LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-alma-hetzner rpm-pkg
 	$(MAKE) build/post/alma/hetzner
 
 package: $(addprefix package/,$(obj))
