@@ -1,7 +1,7 @@
 # Linux PVM CI for Fedora on Hetzner
 
 ```shell
-sudo dnf config-manager --add-repo 'https://loopholelabs.github.io/linux-pvm-ci/repodata/linux-pvm-ci.repo'
+sudo dnf config-manager --add-repo 'https://loopholelabs.github.io/linux-pvm-ci/fedora/hetzner/repodata/linux-pvm-ci.repo'
 sudo dnf install -y kernel-6.7.0_rc6_pvm_host_fedora_hetzner-1.x86_64
 ```
 

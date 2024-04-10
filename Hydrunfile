@@ -1,0 +1,45 @@
+#!/bin/bash
+
+set -e
+
+# Build
+if [ "$1" = "fedora" ]; then
+    # Install native dependencies
+    sudo dnf group install -y "Development Tools"
+    sudo dnf install -y fedora-packager rpmdevtools perl ccache rpm-sign
+    sudo dnf builddep -y kernel
+
+    # Configure Git
+    git config --global --add safe.directory '*'
+
+    # Configure PGP
+    echo "${PGP_KEY_PASSWORD}" | base64 -d >'/tmp/pgp-pass'
+    mkdir -p "${HOME}/.gnupg"
+    cat >"${HOME}/.gnupg/gpg.conf" <<EOT
+yes
+passphrase-file /tmp/pgp-pass
+pinentry-mode loopback
+EOT
+
+    echo "${PGP_KEY}" | base64 -d >'/tmp/private.pgp'
+    gpg --import /tmp/private.pgp
+
+    echo "%_signature gpg
+%_gpg_name $(echo ${PGP_KEY_ID} | base64 -d)" >"${HOME}/.rpmmacros"
+
+    # Get kernel source
+    make clone
+
+    # Patch and configure kernel
+    make "copy/fedora/${2}"
+    make "patch/fedora/${2}"
+    make "configure/fedora/${2}"
+
+    # Build kernel
+    make -j$(nproc) "build/fedora/${2}"
+
+    # Package kernel
+    make -j$(nproc) "package/fedora/${2}" PGP_KEY_ID_BASE64="${PGP_KEY_ID}"
+
+    exit 0
+fi
