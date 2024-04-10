@@ -5,25 +5,25 @@ set -e
 # Install native dependencies for Fedora
 if [ "$1" = "fedora" ]; then
     sudo dnf group install -y "Development Tools"
-    sudo dnf install -y fedora-packager rpmdevtools perl rpm-sign
+    sudo dnf install -y fedora-packager rpmdevtools perl ccache rpm-sign
     sudo dnf builddep -y kernel
 fi
 
 # Install native dependencies for Rocky Linux
 if [ "$1" = "rocky" ]; then
     dnf group install -y "Development Tools"
-    dnf install -y rpmdevtools perl rpm-sign gnupg2
-    dnf install -y https://www.elrepo.org/elrepo-release-9.el9.elrepo.noarch.rpm
     dnf config-manager --set-enabled crb
+    dnf install -y epel-release
+    dnf install -y rpmdevtools perl ccache rpm-sign gnupg2
     dnf builddep -y kernel
 fi
 
 # Install native dependencies for Alma Linux
 if [ "$1" = "alma" ]; then
     dnf group install -y "Development Tools"
-    dnf install -y rpmdevtools perl rpm-sign gnupg2
-    dnf install -y https://www.elrepo.org/elrepo-release-9.el9.elrepo.noarch.rpm
     dnf config-manager --set-enabled crb
+    dnf install -y epel-release
+    dnf install -y rpmdevtools perl ccache rpm-sign gnupg2
     dnf builddep -y kernel
 fi
 
