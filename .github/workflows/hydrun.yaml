@@ -18,6 +18,18 @@ jobs:
             flags: ""
             cmd: ./Hydrunfile fedora hetzner
             dst: out/*
+          - id: rocky-hetzner
+            src: .
+            os: rockylinux:9
+            flags: ""
+            cmd: ./Hydrunfile rocky hetzner
+            dst: out/*
+          - id: alma-hetzner
+            src: .
+            os: almalinux:9
+            flags: ""
+            cmd: ./Hydrunfile alma hetzner
+            dst: out/*
 
     steps:
       - name: Maximize build space

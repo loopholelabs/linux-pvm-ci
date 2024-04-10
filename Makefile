@@ -1,6 +1,7 @@
 SHELL := /bin/bash
+BASEURL := https://loopholelabs.github.io/linux-pvm-ci/
 
-obj = fedora/hetzner
+obj = fedora/hetzner rocky/hetzner alma/hetzner
 all: $(addprefix build/,$(obj))
 
 clone:
@@ -9,25 +10,33 @@ clone:
 	git clone --depth 1 --single-branch --branch pvm-fix https://github.com/virt-pvm/linux.git work/base/linux
 
 copy: $(addprefix copy/,$(obj))
-copy/fedora/hetzner:
-	rm -rf work/fedora/hetzner
-	mkdir -p work/fedora/hetzner
-	cp -r work/base/linux work/fedora/hetzner/linux
+$(addprefix copy/,$(obj)):
+	rm -rf work/$(subst clean/,,$@)
+	rm -rf work/$(subst copy/,,$@)
+	mkdir -p work/$(subst copy/,,$@)
+	cp -r work/base/linux work/$(subst copy/,,$@)/linux
+
 
 patch: $(addprefix patch/,$(obj))
-patch/fedora/hetzner:
-	cd work/fedora/hetzner/linux && \
+$(addprefix patch/pre/,$(obj)):
+	cd work/$(subst patch/pre/,,$@)/linux && \
 	 	git apply ../../../../patches/add-typedefs.patch && \
 	 	git apply ../../../../patches/fix-installkernel.patch
+
+patch/fedora/hetzner: patch/pre/fedora/hetzner
+
+patch/rocky/hetzner: patch/pre/rocky/hetzner
+
+patch/alma/hetzner: patch/pre/alma/hetzner
 
 configure: $(addprefix configure/,$(obj))
 # KVM_PVM: To enable PVM
 # ADDRESS_MASKING: To prevent https://lore.kernel.org/all/CAHk-=wiOJOOyWvZOUsKppD068H3D=5dzQOJv5j2DU4rDPsJBBg@mail.gmail.com/T/
 # DEBUG_INFO_NONE etc.: To build the RPM much more quickly
 # SYSTEM_TRUSTED_KEYS: To auto-generate certs
-configure/fedora/hetzner:
-	cp configs/fedora/hetzner.config work/fedora/hetzner/linux/.config
-	cd work/fedora/hetzner/linux && \
+$(addprefix configure/pre/,$(obj)):
+	cp configs/$(subst configure/pre/,,$@).config work/$(subst configure/pre/,,$@)/linux/.config
+	cd work/$(subst configure/pre/,,$@)/linux && \
 		yes "" | $(MAKE) oldconfig && \
 		scripts/config -m KVM_PVM && \
 		scripts/config -d ADDRESS_MASKING && \
@@ -38,26 +47,51 @@ configure/fedora/hetzner:
 		scripts/config -d DEBUG_INFO_DWARF5 && \
 		scripts/config --set-str SYSTEM_TRUSTED_KEYS ""
 
+configure/fedora/hetzner: configure/pre/fedora/hetzner
+
+configure/rocky/hetzner: configure/pre/rocky/hetzner
+
+configure/alma/hetzner: configure/pre/alma/hetzner
+
 build: $(addprefix build/,$(obj))
-build/fedora/hetzner:
-	rm -rf work/fedora/hetzner/linux/rpmbuild
-	echo '0' > work/fedora/hetzner/linux/.version
+$(addprefix build/pre/,$(obj)):
+	rm -rf work/$(subst build/pre/,,$@)/linux/rpmbuild
+	echo '0' > work/$(subst build/pre/,,$@)/linux/.version
+
+$(addprefix build/post/,$(obj)):
+	mkdir -p out/$(subst build/post/,,$@)
+	cp work/$(subst build/post/,,$@)/linux/rpmbuild/RPMS/x86_64/*.rpm out/$(subst build/post/,,$@)
+
+build/fedora/hetzner: build/pre/fedora/hetzner
 	cd work/fedora/hetzner/linux && yes "" | CC="ccache gcc" $(MAKE) LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-fedora-hetzner rpm-pkg
-	mkdir -p out/fedora/hetzner
-	cp work/fedora/hetzner/linux/rpmbuild/RPMS/x86_64/*.rpm out/fedora/hetzner
+	$(MAKE) build/post/fedora/hetzner
+
+build/rocky/hetzner: build/pre/rocky/hetzner
+	cd work/rocky/hetzner/linux && yes "" | CC="ccache gcc" $(MAKE) LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-rocky-hetzner rpm-pkg
+	$(MAKE) build/post/rocky/hetzner
+
+build/alma/hetzner: build/pre/alma/hetzner
+	cd work/alma/hetzner/linux && yes "" | CC="ccache gcc" $(MAKE) LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-alma-hetzner rpm-pkg
+	$(MAKE) build/post/alma/hetzner
 
 package: $(addprefix package/,$(obj))
-package/fedora/hetzner:
-	rpm --addsign out/fedora/hetzner/*.rpm
-	createrepo out/fedora/hetzner
-	gpg --detach-sign --armor --default-key $(shell echo ${PGP_KEY_ID_BASE64} | base64 -d) "out/fedora/hetzner/repodata/repomd.xml"
-	gpg --output "out/fedora/hetzner/repodata/repo.asc" --armor --export --default-key $(shell echo ${PGP_KEY_ID_BASE64} | base64 -d)
+$(addprefix package/pre/,$(obj)):
+	rpm --addsign out/$(subst package/pre/,,$@)/*.rpm
+	createrepo out/$(subst package/pre/,,$@)
+	gpg --detach-sign --armor --default-key $(shell echo ${PGP_KEY_ID} | base64 -d) "out/$(subst package/pre/,,$@)/repodata/repomd.xml"
+	gpg --output "out/$(subst package/pre/,,$@)/repodata/repo.asc" --armor --export --default-key $(shell echo ${PGP_KEY_ID} | base64 -d)
 	printf "[linux-pvm-ci]\n\
 	name=Linux PVM Repository\n\
-	baseurl=https://loopholelabs.github.io/linux-pvm-ci/fedora/hetzner\n\
+	baseurl=${BASEURL}/$(subst package/pre/,,$@)\n\
 	enabled=1\n\
 	gpgcheck=1\n\
-	gpgkey=https://loopholelabs.github.io/linux-pvm-ci/fedora/hetzner/repodata/repo.asc" > "out/fedora/hetzner/repodata/linux-pvm-ci.repo"
+	gpgkey=${BASEURL}/$(subst package/pre/,,$@)/repodata/repo.asc" > "out/$(subst package/pre/,,$@)/repodata/linux-pvm-ci.repo"
+
+package/fedora/hetzner: package/pre/fedora/hetzner
+
+package/rocky/hetzner: package/pre/rocky/hetzner
+
+package/alma/hetzner: package/pre/alma/hetzner
 
 clean: $(addprefix clean/,$(obj))
 	rm -rf work/base out
