@@ -43,10 +43,10 @@ make "patch/${1}/${2}"
 make "configure/${1}/${2}"
 
 # Build kernel
-make "build/${1}/${2}"
+make -j$(nproc) "build/${1}/${2}"
 
 # Package kernel
-make "package/${1}/${2}" PGP_KEY_ID="${PGP_KEY_ID}"
+make -j$(nproc) "package/${1}/${2}" PGP_KEY_ID="${PGP_KEY_ID}"
 
 # Get ccache stats
 ccache -s

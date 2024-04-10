@@ -5,7 +5,7 @@ on:
 
 jobs:
   build-linux:
-    runs-on: ubuntu-latest-xl
+    runs-on: warp-ubuntu-latest-x64-32x
     strategy:
       matrix:
         target:
@@ -74,7 +74,7 @@ jobs:
           path: ${{ matrix.target.dst }}
 
   publish-linux:
-    runs-on: ubuntu-latest-xl
+    runs-on: warp-ubuntu-latest-x64-32x
     needs: build-linux
 
     steps:
