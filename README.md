@@ -20,6 +20,7 @@ runcmd:
   - dnf config-manager --add-repo 'https://loopholelabs.github.io/linux-pvm-ci/fedora/hetzner/repodata/linux-pvm-ci.repo'
   - dnf install -y kernel-6.7.0_rc6_pvm_host_fedora_hetzner-1.x86_64
   - grubby --set-default /boot/vmlinuz-6.7.0-rc6-pvm-host-fedora-hetzner
+  - grubby --args="pti=off" --update-kernel /boot/vmlinuz-6.7.0-rc6-pvm-host-fedora-hetzner
   - reboot
 
 write_files:
@@ -46,7 +47,8 @@ sudo dnf install -y kernel-6.7.0_rc6_pvm_host_fedora_hetzner-1.x86_64
 ```
 
 ```shell
-sudo grubby --set-default /boot/vmlinuz-6.7.0-rc6-pvm-host-fedora-hetzner
+sudo grubby --args="pti=off" --set-default /boot/vmlinuz-6.7.0-rc6-pvm-host-fedora-hetzner
+sudo grubby --args="pti=off" --update-kernel /boot/vmlinuz-6.7.0-rc6-pvm-host-fedora-hetzner
 ```
 
 ```shell
