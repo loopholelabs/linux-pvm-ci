@@ -14,63 +14,63 @@ jobs:
             os: fedora:39
             cmd: ./Hydrunfile fedora hetzner
             dst: out/*
-          # - id: fedora-digitalocean
-          #   src: .
-          #   os: fedora:39
-          #   cmd: ./Hydrunfile fedora digitalocean
-          #   dst: out/*
-          # - id: fedora-aws
-          #   src: .
-          #   os: fedora:39
-          #   cmd: ./Hydrunfile fedora aws
-          #   dst: out/*
-          # - id: fedora-gcp
-          #   src: .
-          #   os: fedora:39
-          #   cmd: ./Hydrunfile fedora gcp
-          #   dst: out/*
+          - id: fedora-digitalocean
+            src: .
+            os: fedora:39
+            cmd: ./Hydrunfile fedora digitalocean
+            dst: out/*
+          - id: fedora-aws
+            src: .
+            os: fedora:39
+            cmd: ./Hydrunfile fedora aws
+            dst: out/*
+          - id: fedora-gcp
+            src: .
+            os: fedora:39
+            cmd: ./Hydrunfile fedora gcp
+            dst: out/*
 
-          # - id: rocky-hetzner
-          #   src: .
-          #   os: fedora:39
-          #   cmd: ./Hydrunfile rocky hetzner
-          #   dst: out/*
-          # - id: rocky-digitalocean
-          #   src: .
-          #   os: fedora:39
-          #   cmd: ./Hydrunfile rocky digitalocean
-          #   dst: out/*
-          # - id: rocky-aws
-          #   src: .
-          #   os: fedora:39
-          #   cmd: ./Hydrunfile rocky aws
-          #   dst: out/*
-          # - id: rocky-gcp
-          #   src: .
-          #   os: fedora:39
-          #   cmd: ./Hydrunfile rocky gcp
-          #   dst: out/*
+          - id: rocky-hetzner
+            src: .
+            os: fedora:39
+            cmd: ./Hydrunfile rocky hetzner
+            dst: out/*
+          - id: rocky-digitalocean
+            src: .
+            os: fedora:39
+            cmd: ./Hydrunfile rocky digitalocean
+            dst: out/*
+          - id: rocky-aws
+            src: .
+            os: fedora:39
+            cmd: ./Hydrunfile rocky aws
+            dst: out/*
+          - id: rocky-gcp
+            src: .
+            os: fedora:39
+            cmd: ./Hydrunfile rocky gcp
+            dst: out/*
 
-          # - id: alma-hetzner
-          #   src: .
-          #   os: fedora:39
-          #   cmd: ./Hydrunfile alma hetzner
-          #   dst: out/*
-          # - id: alma-digitalocean
-          #   src: .
-          #   os: fedora:39
-          #   cmd: ./Hydrunfile alma digitalocean
-          #   dst: out/*
-          # - id: alma-aws
-          #   src: .
-          #   os: fedora:39
-          #   cmd: ./Hydrunfile alma aws
-          #   dst: out/*
-          # - id: alma-gcp
-          #   src: .
-          #   os: fedora:39
-          #   cmd: ./Hydrunfile alma gcp
-          #   dst: out/*
+          - id: alma-hetzner
+            src: .
+            os: fedora:39
+            cmd: ./Hydrunfile alma hetzner
+            dst: out/*
+          - id: alma-digitalocean
+            src: .
+            os: fedora:39
+            cmd: ./Hydrunfile alma digitalocean
+            dst: out/*
+          - id: alma-aws
+            src: .
+            os: fedora:39
+            cmd: ./Hydrunfile alma aws
+            dst: out/*
+          - id: alma-gcp
+            src: .
+            os: fedora:39
+            cmd: ./Hydrunfile alma gcp
+            dst: out/*
 
     steps:
       - name: Checkout
