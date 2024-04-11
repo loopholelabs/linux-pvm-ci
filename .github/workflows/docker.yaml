@@ -50,6 +50,11 @@ jobs:
             os: fedora:39
             cmd: ./Hydrunfile rocky gcp
             dst: out/*
+          - id: rocky-equinix
+            src: .
+            os: fedora:39
+            cmd: ./Hydrunfile rocky equinix
+            dst: out/*
 
           - id: alma-hetzner
             src: .
@@ -70,6 +75,11 @@ jobs:
             src: .
             os: fedora:39
             cmd: ./Hydrunfile alma gcp
+            dst: out/*
+          - id: alma-equinix
+            src: .
+            os: fedora:39
+            cmd: ./Hydrunfile alma equinix
             dst: out/*
 
     steps:
