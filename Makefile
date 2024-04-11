@@ -2,8 +2,8 @@ SHELL := /bin/bash
 BASEURL := https://loopholelabs.github.io/linux-pvm-ci/
 
 obj = fedora/hetzner fedora/digitalocean fedora/aws fedora/gcp fedora/ovh \
-      rocky/hetzner rocky/digitalocean rocky/aws rocky/gcp rocky/equinix rocky/ovh \
-      alma/hetzner alma/digitalocean alma/aws alma/gcp alma/equinix alma/ovh
+      rocky/hetzner rocky/digitalocean rocky/aws rocky/gcp rocky/equinix rocky/ovh rocky/azure \
+      alma/hetzner alma/digitalocean alma/aws alma/gcp alma/equinix alma/ovh alma/azure
 all: $(addprefix build/,$(obj))
 
 clone:
@@ -37,6 +37,7 @@ patch/rocky/aws: patch/pre/rocky/aws
 patch/rocky/gcp: patch/pre/rocky/gcp
 patch/rocky/equinix: patch/pre/rocky/equinix
 patch/rocky/ovh: patch/pre/rocky/ovh
+patch/rocky/azure: patch/pre/rocky/azure
 
 patch/alma/hetzner: patch/pre/alma/hetzner
 patch/alma/digitalocean: patch/pre/alma/digitalocean
@@ -44,6 +45,7 @@ patch/alma/aws: patch/pre/alma/aws
 patch/alma/gcp: patch/pre/alma/gcp
 patch/alma/equinix: patch/pre/alma/equinix
 patch/alma/ovh: patch/pre/alma/ovh
+patch/alma/azure: patch/pre/alma/azure
 
 configure: $(addprefix configure/,$(obj))
 # KVM_PVM: To enable PVM
@@ -79,6 +81,7 @@ configure/rocky/gcp: configure/pre/rocky/gcp
 	cd work/rocky/gcp/linux && scripts/config -d CONFIG_X86_5LEVEL
 configure/rocky/equinix: configure/pre/rocky/equinix
 configure/rocky/ovh: configure/pre/rocky/ovh
+configure/rocky/azure: configure/pre/rocky/azure
 
 configure/alma/hetzner: configure/pre/alma/hetzner
 configure/alma/digitalocean: configure/pre/alma/digitalocean
@@ -88,6 +91,7 @@ configure/alma/gcp: configure/pre/alma/gcp
 	cd work/alma/gcp/linux && scripts/config -d CONFIG_X86_5LEVEL
 configure/alma/equinix: configure/pre/alma/equinix
 configure/alma/ovh: configure/pre/alma/ovh
+configure/alma/azure: configure/pre/alma/azure
 
 build: $(addprefix build/,$(obj))
 $(addprefix build/pre/,$(obj)):
@@ -132,6 +136,9 @@ build/rocky/equinix: build/pre/rocky/equinix
 build/rocky/ovh: build/pre/rocky/ovh
 	cd work/rocky/ovh/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-rocky-ovh rpm-pkg
 	$(MAKE) build/post/rocky/ovh
+build/rocky/azure: build/pre/rocky/azure
+	cd work/rocky/azure/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-rocky-azure rpm-pkg
+	$(MAKE) build/post/rocky/azure
 
 build/alma/hetzner: build/pre/alma/hetzner
 	cd work/alma/hetzner/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-alma-hetzner rpm-pkg
@@ -151,6 +158,9 @@ build/alma/equinix: build/pre/alma/equinix
 build/alma/ovh: build/pre/alma/ovh
 	cd work/alma/ovh/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-alma-ovh rpm-pkg
 	$(MAKE) build/post/alma/ovh
+build/alma/azure: build/pre/alma/azure
+	cd work/alma/azure/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-alma-azure rpm-pkg
+	$(MAKE) build/post/alma/azure
 
 package: $(addprefix package/,$(obj))
 $(addprefix package/pre/,$(obj)):
@@ -177,6 +187,7 @@ package/rocky/aws: package/pre/rocky/aws
 package/rocky/gcp: package/pre/rocky/gcp
 package/rocky/equinix: package/pre/rocky/equinix
 package/rocky/ovh: package/pre/rocky/ovh
+package/rocky/azure: package/pre/rocky/azure
 
 package/alma/hetzner: package/pre/alma/hetzner
 package/alma/digitalocean: package/pre/alma/digitalocean
@@ -184,6 +195,7 @@ package/alma/aws: package/pre/alma/aws
 package/alma/gcp: package/pre/alma/gcp
 package/alma/equinix: package/pre/alma/equinix
 package/alma/ovh: package/pre/alma/ovh
+package/alma/azure: package/pre/alma/azure
 
 clean: $(addprefix clean/,$(obj))
 	rm -rf work/base out

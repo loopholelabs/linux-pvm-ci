@@ -65,6 +65,11 @@ jobs:
             os: fedora:39
             cmd: ./Hydrunfile rocky ovh
             dst: out/*
+          - id: rocky-azure
+            src: .
+            os: fedora:39
+            cmd: ./Hydrunfile rocky azure
+            dst: out/*
 
           - id: alma-hetzner
             src: .
@@ -95,6 +100,11 @@ jobs:
             src: .
             os: fedora:39
             cmd: ./Hydrunfile alma ovh
+            dst: out/*
+          - id: alma-azure
+            src: .
+            os: fedora:39
+            cmd: ./Hydrunfile alma azure
             dst: out/*
 
     steps:
