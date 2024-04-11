@@ -70,6 +70,11 @@ jobs:
             os: fedora:39
             cmd: ./Hydrunfile rocky azure
             dst: out/*
+          - id: rocky-civo
+            src: .
+            os: fedora:39
+            cmd: ./Hydrunfile rocky civo
+            dst: out/*
 
           - id: alma-hetzner
             src: .

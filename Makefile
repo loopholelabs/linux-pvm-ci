@@ -2,7 +2,7 @@ SHELL := /bin/bash
 BASEURL := https://loopholelabs.github.io/linux-pvm-ci/
 
 obj = fedora/hetzner fedora/digitalocean fedora/aws fedora/gcp fedora/ovh \
-      rocky/hetzner rocky/digitalocean rocky/aws rocky/gcp rocky/equinix rocky/ovh rocky/azure \
+      rocky/hetzner rocky/digitalocean rocky/aws rocky/gcp rocky/equinix rocky/ovh rocky/azure rocky/civo \
       alma/hetzner alma/digitalocean alma/aws alma/gcp alma/equinix alma/ovh alma/azure
 all: $(addprefix build/,$(obj))
 
@@ -38,6 +38,7 @@ patch/rocky/gcp: patch/pre/rocky/gcp
 patch/rocky/equinix: patch/pre/rocky/equinix
 patch/rocky/ovh: patch/pre/rocky/ovh
 patch/rocky/azure: patch/pre/rocky/azure
+patch/rocky/civo: patch/pre/rocky/civo
 
 patch/alma/hetzner: patch/pre/alma/hetzner
 patch/alma/digitalocean: patch/pre/alma/digitalocean
@@ -82,6 +83,7 @@ configure/rocky/gcp: configure/pre/rocky/gcp
 configure/rocky/equinix: configure/pre/rocky/equinix
 configure/rocky/ovh: configure/pre/rocky/ovh
 configure/rocky/azure: configure/pre/rocky/azure
+configure/rocky/civo: configure/pre/rocky/civo
 
 configure/alma/hetzner: configure/pre/alma/hetzner
 configure/alma/digitalocean: configure/pre/alma/digitalocean
@@ -139,6 +141,9 @@ build/rocky/ovh: build/pre/rocky/ovh
 build/rocky/azure: build/pre/rocky/azure
 	cd work/rocky/azure/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-rocky-azure rpm-pkg
 	$(MAKE) build/post/rocky/azure
+build/rocky/civo: build/pre/rocky/civo
+	cd work/rocky/civo/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-rocky-civo rpm-pkg
+	$(MAKE) build/post/rocky/civo
 
 build/alma/hetzner: build/pre/alma/hetzner
 	cd work/alma/hetzner/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-alma-hetzner rpm-pkg
@@ -188,6 +193,7 @@ package/rocky/gcp: package/pre/rocky/gcp
 package/rocky/equinix: package/pre/rocky/equinix
 package/rocky/ovh: package/pre/rocky/ovh
 package/rocky/azure: package/pre/rocky/azure
+package/rocky/civo: package/pre/rocky/civo
 
 package/alma/hetzner: package/pre/alma/hetzner
 package/alma/digitalocean: package/pre/alma/digitalocean
