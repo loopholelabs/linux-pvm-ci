@@ -29,6 +29,11 @@ jobs:
             os: fedora:39
             cmd: ./Hydrunfile fedora gcp
             dst: out/*
+          - id: fedora-ovh
+            src: .
+            os: fedora:39
+            cmd: ./Hydrunfile fedora ovh
+            dst: out/*
 
           - id: rocky-hetzner
             src: .
@@ -55,6 +60,11 @@ jobs:
             os: fedora:39
             cmd: ./Hydrunfile rocky equinix
             dst: out/*
+          - id: rocky-ovh
+            src: .
+            os: fedora:39
+            cmd: ./Hydrunfile rocky ovh
+            dst: out/*
 
           - id: alma-hetzner
             src: .
@@ -80,6 +90,11 @@ jobs:
             src: .
             os: fedora:39
             cmd: ./Hydrunfile alma equinix
+            dst: out/*
+          - id: alma-ovh
+            src: .
+            os: fedora:39
+            cmd: ./Hydrunfile alma ovh
             dst: out/*
 
     steps:
