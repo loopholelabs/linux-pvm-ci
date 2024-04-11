@@ -12,19 +12,16 @@ jobs:
           - id: fedora-hetzner
             src: .
             os: fedora:39
-            flags: -e "-v ${{ runner.temp }}/fedora-hetzner/.cache/ccache:/root/.cache/ccache"
             cmd: ./Hydrunfile fedora hetzner
             dst: out/*
           - id: rocky-hetzner
             src: .
             os: fedora:39
-            flags: -e "-v ${{ runner.temp }}/fedora-hetzner/.cache/ccache:/root/.cache/ccache"
             cmd: ./Hydrunfile rocky hetzner
             dst: out/*
           - id: alma-hetzner
             src: .
             os: fedora:39
-            flags: -e "-v ${{ runner.temp }}/fedora-hetzner/.cache/ccache:/root/.cache/ccache"
             cmd: ./Hydrunfile alma hetzner
             dst: out/*
 
@@ -47,7 +44,7 @@ jobs:
           PGP_KEY: ${{ secrets.PGP_KEY }}
           PGP_KEY_PASSWORD: ${{ secrets.PGP_KEY_PASSWORD }}
           PGP_KEY_ID: ${{ secrets.PGP_KEY_ID }}
-        run: ${{ runner.temp }}/hydrun -o ${{ matrix.target.os }} ${{ matrix.target.flags }} "PGP_KEY=${PGP_KEY} PGP_KEY_PASSWORD=${PGP_KEY_PASSWORD} PGP_KEY_ID=${PGP_KEY_ID} ${{ matrix.target.cmd }}"
+        run: ${{ runner.temp }}/hydrun -o ${{ matrix.target.os }} -e "-v ${{ runner.temp }}/${{ matrix.target.id }}/.cache/ccache:/root/.cache/ccache" "PGP_KEY=${PGP_KEY} PGP_KEY_PASSWORD=${PGP_KEY_PASSWORD} PGP_KEY_ID=${PGP_KEY_ID} ${{ matrix.target.cmd }}"
       - name: Save ccache
         uses: actions/cache/save@v4
         with:
