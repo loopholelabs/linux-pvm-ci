@@ -73,6 +73,8 @@ jobs:
           PGP_KEY_PASSWORD: ${{ secrets.PGP_KEY_PASSWORD }}
           PGP_KEY_ID: ${{ secrets.PGP_KEY_ID }}
         run: docker run -v "${{ runner.temp }}/${{ matrix.target.id }}/.cache/ccache:/root/.cache/ccache" -v "${PWD}:/data" -e "PGP_KEY=${PGP_KEY}" -e "PGP_KEY_PASSWORD=${PGP_KEY_PASSWORD}" -e "PGP_KEY_ID=${PGP_KEY_ID}" ${{ matrix.target.os }} bash -c "cd /data && ${{ matrix.target.cmd }}"
+      - name: Fix permissions for output
+        run: sudo chown -R $USER .
       - name: Save ccache
         uses: actions/cache/save@v4
         with:
