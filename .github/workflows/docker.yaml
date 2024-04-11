@@ -24,6 +24,11 @@ jobs:
           #   os: fedora:39
           #   cmd: ./Hydrunfile fedora aws
           #   dst: out/*
+          # - id: fedora-gcp
+          #   src: .
+          #   os: fedora:39
+          #   cmd: ./Hydrunfile fedora gcp
+          #   dst: out/*
 
           # - id: rocky-hetzner
           #   src: .
@@ -40,6 +45,11 @@ jobs:
           #   os: fedora:39
           #   cmd: ./Hydrunfile rocky aws
           #   dst: out/*
+          # - id: rocky-gcp
+          #   src: .
+          #   os: fedora:39
+          #   cmd: ./Hydrunfile rocky gcp
+          #   dst: out/*
 
           # - id: alma-hetzner
           #   src: .
@@ -55,6 +65,11 @@ jobs:
           #   src: .
           #   os: fedora:39
           #   cmd: ./Hydrunfile alma aws
+          #   dst: out/*
+          # - id: alma-gcp
+          #   src: .
+          #   os: fedora:39
+          #   cmd: ./Hydrunfile alma gcp
           #   dst: out/*
 
     steps:

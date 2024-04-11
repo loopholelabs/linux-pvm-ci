@@ -1,7 +1,9 @@
 SHELL := /bin/bash
 BASEURL := https://loopholelabs.github.io/linux-pvm-ci/
 
-obj = fedora/hetzner fedora/digitalocean fedora/aws rocky/hetzner rocky/digitalocean rocky/aws alma/hetzner alma/digitalocean alma/aws
+obj = fedora/hetzner fedora/digitalocean fedora/aws fedora/gcp \
+      rocky/hetzner rocky/digitalocean rocky/aws rocky/gcp \
+      alma/hetzner alma/digitalocean alma/aws alma/gcp
 all: $(addprefix build/,$(obj))
 
 clone:
@@ -26,14 +28,17 @@ $(addprefix patch/pre/,$(obj)):
 patch/fedora/hetzner: patch/pre/fedora/hetzner
 patch/fedora/digitalocean: patch/pre/fedora/digitalocean
 patch/fedora/aws: patch/pre/fedora/aws
+patch/fedora/gcp: patch/pre/fedora/gcp
 
 patch/rocky/hetzner: patch/pre/rocky/hetzner
 patch/rocky/digitalocean: patch/pre/rocky/digitalocean
 patch/rocky/aws: patch/pre/rocky/aws
+patch/rocky/gcp: patch/pre/rocky/gcp
 
 patch/alma/hetzner: patch/pre/alma/hetzner
 patch/alma/digitalocean: patch/pre/alma/digitalocean
 patch/alma/aws: patch/pre/alma/aws
+patch/alma/gcp: patch/pre/alma/gcp
 
 configure: $(addprefix configure/,$(obj))
 # KVM_PVM: To enable PVM
@@ -56,14 +61,23 @@ $(addprefix configure/pre/,$(obj)):
 configure/fedora/hetzner: configure/pre/fedora/hetzner
 configure/fedora/digitalocean: configure/pre/fedora/digitalocean
 configure/fedora/aws: configure/pre/fedora/aws
+# CONFIG_X86_5LEVEL: To prevent https://github.com/virt-pvm/linux/issues/6
+configure/fedora/gcp: configure/pre/fedora/gcp
+	cd work/fedora/gcp/linux && scripts/config -d CONFIG_X86_5LEVEL
 
 configure/rocky/hetzner: configure/pre/rocky/hetzner
 configure/rocky/digitalocean: configure/pre/rocky/digitalocean
 configure/rocky/aws: configure/pre/rocky/aws
+# CONFIG_X86_5LEVEL: To prevent https://github.com/virt-pvm/linux/issues/6
+configure/rocky/gcp: configure/pre/rocky/gcp
+	cd work/rocky/gcp/linux && scripts/config -d CONFIG_X86_5LEVEL
 
 configure/alma/hetzner: configure/pre/alma/hetzner
 configure/alma/digitalocean: configure/pre/alma/digitalocean
 configure/alma/aws: configure/pre/alma/aws
+# CONFIG_X86_5LEVEL: To prevent https://github.com/virt-pvm/linux/issues/6
+configure/alma/gcp: configure/pre/alma/gcp
+	cd work/alma/gcp/linux && scripts/config -d CONFIG_X86_5LEVEL
 
 build: $(addprefix build/,$(obj))
 $(addprefix build/pre/,$(obj)):
@@ -83,6 +97,9 @@ build/fedora/digitalocean: build/pre/fedora/digitalocean
 build/fedora/aws: build/pre/fedora/aws
 	cd work/fedora/aws/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-fedora-aws rpm-pkg
 	$(MAKE) build/post/fedora/aws
+build/fedora/gcp: build/pre/fedora/gcp
+	cd work/fedora/gcp/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-fedora-gcp rpm-pkg
+	$(MAKE) build/post/fedora/gcp
 
 build/rocky/hetzner: build/pre/rocky/hetzner
 	cd work/rocky/hetzner/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-rocky-hetzner rpm-pkg
@@ -93,6 +110,9 @@ build/rocky/digitalocean: build/pre/rocky/digitalocean
 build/rocky/aws: build/pre/rocky/aws
 	cd work/rocky/aws/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-rocky-aws rpm-pkg
 	$(MAKE) build/post/rocky/aws
+build/rocky/gcp: build/pre/rocky/gcp
+	cd work/rocky/gcp/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-rocky-gcp rpm-pkg
+	$(MAKE) build/post/rocky/gcp
 
 build/alma/hetzner: build/pre/alma/hetzner
 	cd work/alma/hetzner/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-alma-hetzner rpm-pkg
@@ -100,6 +120,12 @@ build/alma/hetzner: build/pre/alma/hetzner
 build/alma/digitalocean: build/pre/alma/digitalocean
 	cd work/alma/digitalocean/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-alma-digitalocean rpm-pkg
 	$(MAKE) build/post/alma/digitalocean
+build/alma/aws: build/pre/alma/aws
+	cd work/alma/aws/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-alma-aws rpm-pkg
+	$(MAKE) build/post/alma/aws
+build/alma/gcp: build/pre/alma/gcp
+	cd work/alma/gcp/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-alma-gcp rpm-pkg
+	$(MAKE) build/post/alma/gcp
 
 package: $(addprefix package/,$(obj))
 $(addprefix package/pre/,$(obj)):
@@ -117,14 +143,17 @@ $(addprefix package/pre/,$(obj)):
 package/fedora/hetzner: package/pre/fedora/hetzner
 package/fedora/digitalocean: package/pre/fedora/digitalocean
 package/fedora/aws: package/pre/fedora/aws
+package/fedora/gcp: package/pre/fedora/gcp
 
 package/rocky/hetzner: package/pre/rocky/hetzner
 package/rocky/digitalocean: package/pre/rocky/digitalocean
 package/rocky/aws: package/pre/rocky/aws
+package/rocky/gcp: package/pre/rocky/gcp
 
 package/alma/hetzner: package/pre/alma/hetzner
 package/alma/digitalocean: package/pre/alma/digitalocean
 package/alma/aws: package/pre/alma/aws
+package/alma/gcp: package/pre/alma/gcp
 
 clean: $(addprefix clean/,$(obj))
 	rm -rf work/base out
