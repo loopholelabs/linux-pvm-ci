@@ -5,7 +5,7 @@ on:
 
 jobs:
   build-linux:
-    runs-on: aws-c5-2xlarge
+    runs-on: self-hosted
     strategy:
       matrix:
         target:
@@ -58,7 +58,7 @@ jobs:
           path: ${{ matrix.target.dst }}
 
   publish-linux:
-    runs-on: aws-c5-2xlarge
+    runs-on: self-hosted
     needs: build-linux
 
     steps:
