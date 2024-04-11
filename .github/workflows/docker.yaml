@@ -1,4 +1,4 @@
-name: hydrun CI
+name: Docker CI
 
 on:
   - push
@@ -14,16 +14,48 @@ jobs:
             os: fedora:39
             cmd: ./Hydrunfile fedora hetzner
             dst: out/*
-          - id: rocky-hetzner
-            src: .
-            os: fedora:39
-            cmd: ./Hydrunfile rocky hetzner
-            dst: out/*
-          - id: alma-hetzner
-            src: .
-            os: fedora:39
-            cmd: ./Hydrunfile alma hetzner
-            dst: out/*
+          # - id: fedora-digitalocean
+          #   src: .
+          #   os: fedora:39
+          #   cmd: ./Hydrunfile fedora digitalocean
+          #   dst: out/*
+          # - id: fedora-aws
+          #   src: .
+          #   os: fedora:39
+          #   cmd: ./Hydrunfile fedora aws
+          #   dst: out/*
+
+          # - id: rocky-hetzner
+          #   src: .
+          #   os: fedora:39
+          #   cmd: ./Hydrunfile rocky hetzner
+          #   dst: out/*
+          # - id: rocky-digitalocean
+          #   src: .
+          #   os: fedora:39
+          #   cmd: ./Hydrunfile rocky digitalocean
+          #   dst: out/*
+          # - id: rocky-aws
+          #   src: .
+          #   os: fedora:39
+          #   cmd: ./Hydrunfile rocky aws
+          #   dst: out/*
+
+          # - id: alma-hetzner
+          #   src: .
+          #   os: fedora:39
+          #   cmd: ./Hydrunfile alma hetzner
+          #   dst: out/*
+          # - id: alma-digitalocean
+          #   src: .
+          #   os: fedora:39
+          #   cmd: ./Hydrunfile alma digitalocean
+          #   dst: out/*
+          # - id: alma-aws
+          #   src: .
+          #   os: fedora:39
+          #   cmd: ./Hydrunfile alma aws
+          #   dst: out/*
 
     steps:
       - name: Checkout
@@ -34,17 +66,13 @@ jobs:
           path: |
             ${{ runner.temp }}/${{ matrix.target.id }}/.cache/ccache
           key: ccache-${{ matrix.target.id }}
-      - name: Set up hydrun
-        run: |
-          curl -L -o ${{ runner.temp }}/hydrun "https://github.com/pojntfx/hydrun/releases/latest/download/hydrun.linux-$(uname -m)"
-          chmod +x ${{ runner.temp }}/hydrun
-      - name: Build with hydrun
+      - name: Build with Docker
         working-directory: ${{ matrix.target.src }}
         env:
           PGP_KEY: ${{ secrets.PGP_KEY }}
           PGP_KEY_PASSWORD: ${{ secrets.PGP_KEY_PASSWORD }}
           PGP_KEY_ID: ${{ secrets.PGP_KEY_ID }}
-        run: ${{ runner.temp }}/hydrun -o ${{ matrix.target.os }} -e "-v ${{ runner.temp }}/${{ matrix.target.id }}/.cache/ccache:/root/.cache/ccache" "PGP_KEY=${PGP_KEY} PGP_KEY_PASSWORD=${PGP_KEY_PASSWORD} PGP_KEY_ID=${PGP_KEY_ID} ${{ matrix.target.cmd }}"
+        run: docker run -v "${{ runner.temp }}/${{ matrix.target.id }}/.cache/ccache:/root/.cache/ccache" -v "${PWD}:/data" -e "PGP_KEY=${PGP_KEY}" -e "PGP_KEY_PASSWORD=${PGP_KEY_PASSWORD}" -e "PGP_KEY_ID=${PGP_KEY_ID}" ${{ matrix.target.os }} bash -c "cd /data && ${{ matrix.target.cmd }}"
       - name: Save ccache
         uses: actions/cache/save@v4
         with:

@@ -2,7 +2,7 @@
 
 Kernel package CI for Linux with PVM patches applied
 
-[![hydrun CI](https://github.com/loopholelabs/linux-pvm-ci/actions/workflows/hydrun.yaml/badge.svg)](https://github.com/loopholelabs/linux-pvm-ci/actions/workflows/hydrun.yaml)
+[![Docker CI](https://github.com/loopholelabs/linux-pvm-ci/actions/workflows/docker.yaml/badge.svg)](https://github.com/loopholelabs/linux-pvm-ci/actions/workflows/docker.yaml)
 
 ## Overview
 
