@@ -1,9 +1,9 @@
 SHELL := /bin/bash
 BASEURL := https://loopholelabs.github.io/linux-pvm-ci/
 
-obj = fedora/hetzner fedora/digitalocean fedora/aws fedora/gcp fedora/ovh \
-      rocky/hetzner rocky/digitalocean rocky/aws rocky/gcp rocky/equinix rocky/ovh rocky/azure rocky/civo \
-      alma/hetzner alma/digitalocean alma/aws alma/gcp alma/equinix alma/ovh alma/azure
+obj = fedora/hetzner fedora/digitalocean fedora/aws fedora/gcp fedora/ovh fedora/linode \
+      rocky/hetzner rocky/digitalocean rocky/aws rocky/gcp rocky/equinix rocky/ovh rocky/azure rocky/civo rocky/linode \
+      alma/hetzner alma/digitalocean alma/aws alma/gcp alma/equinix alma/ovh alma/azure alma/linode
 all: $(addprefix build/,$(obj))
 
 clone:
@@ -30,6 +30,7 @@ patch/fedora/digitalocean: patch/pre/fedora/digitalocean
 patch/fedora/aws: patch/pre/fedora/aws
 patch/fedora/gcp: patch/pre/fedora/gcp
 patch/fedora/ovh: patch/pre/fedora/ovh
+patch/fedora/linode: patch/pre/fedora/linode
 
 patch/rocky/hetzner: patch/pre/rocky/hetzner
 patch/rocky/digitalocean: patch/pre/rocky/digitalocean
@@ -39,6 +40,7 @@ patch/rocky/equinix: patch/pre/rocky/equinix
 patch/rocky/ovh: patch/pre/rocky/ovh
 patch/rocky/azure: patch/pre/rocky/azure
 patch/rocky/civo: patch/pre/rocky/civo
+patch/rocky/linode: patch/pre/rocky/linode
 
 patch/alma/hetzner: patch/pre/alma/hetzner
 patch/alma/digitalocean: patch/pre/alma/digitalocean
@@ -47,6 +49,7 @@ patch/alma/gcp: patch/pre/alma/gcp
 patch/alma/equinix: patch/pre/alma/equinix
 patch/alma/ovh: patch/pre/alma/ovh
 patch/alma/azure: patch/pre/alma/azure
+patch/alma/linode: patch/pre/alma/linode
 
 configure: $(addprefix configure/,$(obj))
 # KVM_PVM: To enable PVM
@@ -73,6 +76,7 @@ configure/fedora/aws: configure/pre/fedora/aws
 configure/fedora/gcp: configure/pre/fedora/gcp
 	cd work/fedora/gcp/linux && scripts/config -d CONFIG_X86_5LEVEL
 configure/fedora/ovh: configure/pre/fedora/ovh
+configure/fedora/linode: configure/pre/fedora/linode
 
 configure/rocky/hetzner: configure/pre/rocky/hetzner
 configure/rocky/digitalocean: configure/pre/rocky/digitalocean
@@ -84,6 +88,7 @@ configure/rocky/equinix: configure/pre/rocky/equinix
 configure/rocky/ovh: configure/pre/rocky/ovh
 configure/rocky/azure: configure/pre/rocky/azure
 configure/rocky/civo: configure/pre/rocky/civo
+configure/rocky/linode: configure/pre/rocky/linode
 
 configure/alma/hetzner: configure/pre/alma/hetzner
 configure/alma/digitalocean: configure/pre/alma/digitalocean
@@ -94,6 +99,7 @@ configure/alma/gcp: configure/pre/alma/gcp
 configure/alma/equinix: configure/pre/alma/equinix
 configure/alma/ovh: configure/pre/alma/ovh
 configure/alma/azure: configure/pre/alma/azure
+configure/alma/linode: configure/pre/alma/linode
 
 build: $(addprefix build/,$(obj))
 $(addprefix build/pre/,$(obj)):
@@ -119,6 +125,9 @@ build/fedora/gcp: build/pre/fedora/gcp
 build/fedora/ovh: build/pre/fedora/ovh
 	cd work/fedora/ovh/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-fedora-ovh rpm-pkg
 	$(MAKE) build/post/fedora/ovh
+build/fedora/linode: build/pre/fedora/linode
+	cd work/fedora/linode/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-fedora-linode rpm-pkg
+	$(MAKE) build/post/fedora/linode
 
 build/rocky/hetzner: build/pre/rocky/hetzner
 	cd work/rocky/hetzner/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-rocky-hetzner rpm-pkg
@@ -144,6 +153,9 @@ build/rocky/azure: build/pre/rocky/azure
 build/rocky/civo: build/pre/rocky/civo
 	cd work/rocky/civo/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-rocky-civo rpm-pkg
 	$(MAKE) build/post/rocky/civo
+build/rocky/linode: build/pre/rocky/linode
+	cd work/rocky/linode/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-rocky-linode rpm-pkg
+	$(MAKE) build/post/rocky/linode
 
 build/alma/hetzner: build/pre/alma/hetzner
 	cd work/alma/hetzner/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-alma-hetzner rpm-pkg
@@ -166,6 +178,9 @@ build/alma/ovh: build/pre/alma/ovh
 build/alma/azure: build/pre/alma/azure
 	cd work/alma/azure/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-alma-azure rpm-pkg
 	$(MAKE) build/post/alma/azure
+build/alma/linode: build/pre/alma/linode
+	cd work/alma/linode/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-alma-linode rpm-pkg
+	$(MAKE) build/post/alma/linode
 
 package: $(addprefix package/,$(obj))
 $(addprefix package/pre/,$(obj)):
@@ -185,6 +200,7 @@ package/fedora/digitalocean: package/pre/fedora/digitalocean
 package/fedora/aws: package/pre/fedora/aws
 package/fedora/gcp: package/pre/fedora/gcp
 package/fedora/ovh: package/pre/fedora/ovh
+package/fedora/linode: package/pre/fedora/linode
 
 package/rocky/hetzner: package/pre/rocky/hetzner
 package/rocky/digitalocean: package/pre/rocky/digitalocean
@@ -194,6 +210,7 @@ package/rocky/equinix: package/pre/rocky/equinix
 package/rocky/ovh: package/pre/rocky/ovh
 package/rocky/azure: package/pre/rocky/azure
 package/rocky/civo: package/pre/rocky/civo
+package/rocky/linode: package/pre/rocky/linode
 
 package/alma/hetzner: package/pre/alma/hetzner
 package/alma/digitalocean: package/pre/alma/digitalocean
@@ -202,6 +219,7 @@ package/alma/gcp: package/pre/alma/gcp
 package/alma/equinix: package/pre/alma/equinix
 package/alma/ovh: package/pre/alma/ovh
 package/alma/azure: package/pre/alma/azure
+package/alma/linode: package/pre/alma/linode
 
 clean: $(addprefix clean/,$(obj))
 	rm -rf work/base out
