@@ -3,6 +3,10 @@ name: Docker CI
 on:
   - push
 
+permissions:
+  contents: write
+  pages: write
+
 jobs:
   build-linux:
     runs-on: ubuntu-latest
