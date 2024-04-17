@@ -10,17 +10,17 @@ Kernel package CI for Linux with PVM patches applied
 
 ## Installation
 
-> Replace all occurrences of `fedora` to your distribution of choice (valid values are: `fedora`, `rocky`, `alma`) and `hetzner` to your cloud provider of choice (valid values are: `hetzner`, `digitalocean`, `aws`, `gcp`, `equinix`, `ovh`, `azure`, `civo`, `linode`)
+> Replace all occurrences of `fedora` to your distribution of choice (valid values are: `fedora`, `rocky`, `alma`) and `aws` to your cloud provider of choice (valid values are: `aws`, `digitalocean`, `hetzner`, `gcp`, `equinix`, `ovh`, `azure`, `civo`, `linode`)
 
 ### With `cloud-init`
 
 ```yaml
 #cloud-config
 runcmd:
-  - dnf config-manager --add-repo 'https://loopholelabs.github.io/linux-pvm-ci/fedora/hetzner/repodata/linux-pvm-ci.repo'
-  - dnf install -y kernel-6.7.0_rc6_pvm_host_fedora_hetzner-1.x86_64
-  - grubby --set-default /boot/vmlinuz-6.7.0-rc6-pvm-host-fedora-hetzner
-  - grubby --args="pti=off" --update-kernel /boot/vmlinuz-6.7.0-rc6-pvm-host-fedora-hetzner
+  - dnf config-manager --add-repo 'https://loopholelabs.github.io/linux-pvm-ci/fedora/aws/repodata/linux-pvm-ci.repo'
+  - dnf install -y kernel-6.7.0_rc6_pvm_host_fedora_aws-1.x86_64
+  - grubby --set-default /boot/vmlinuz-6.7.0-rc6-pvm-host-fedora-aws
+  - grubby --args="pti=off" --update-kernel /boot/vmlinuz-6.7.0-rc6-pvm-host-fedora-aws
   - reboot
 
 write_files:
@@ -42,13 +42,13 @@ power_state:
 ### Manually
 
 ```shell
-sudo dnf config-manager --add-repo 'https://loopholelabs.github.io/linux-pvm-ci/fedora/hetzner/repodata/linux-pvm-ci.repo'
-sudo dnf install -y kernel-6.7.0_rc6_pvm_host_fedora_hetzner-1.x86_64
+sudo dnf config-manager --add-repo 'https://loopholelabs.github.io/linux-pvm-ci/fedora/aws/repodata/linux-pvm-ci.repo'
+sudo dnf install -y kernel-6.7.0_rc6_pvm_host_fedora_aws-1.x86_64
 ```
 
 ```shell
-sudo grubby --args="pti=off" --set-default /boot/vmlinuz-6.7.0-rc6-pvm-host-fedora-hetzner
-sudo grubby --args="pti=off" --update-kernel /boot/vmlinuz-6.7.0-rc6-pvm-host-fedora-hetzner
+sudo grubby --set-default /boot/vmlinuz-6.7.0-rc6-pvm-host-fedora-aws
+sudo grubby --args="pti=off" --update-kernel /boot/vmlinuz-6.7.0-rc6-pvm-host-fedora-aws
 ```
 
 ```shell
