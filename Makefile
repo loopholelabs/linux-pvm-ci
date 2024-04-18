@@ -9,7 +9,7 @@ all: $(addprefix build/,$(obj))
 clone:
 	rm -rf work/base/linux
 	mkdir -p work/base/linux
-	git clone --depth 1 --single-branch --branch pvm https://github.com/virt-pvm/linux.git work/base/linux
+	git clone --depth 1 --single-branch --branch pvm https://github.com/loopholelabs/linux-pvm.git work/base/linux
 
 copy: $(addprefix copy/,$(obj))
 $(addprefix copy/,$(obj)):
