@@ -135,7 +135,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Restore ccache
-        uses: actions/cache/restore@v4
+        uses: buildjet/cache/restore@v4
         with:
           path: |
             ${{ runner.temp }}/${{ matrix.target.id }}/.cache/ccache
@@ -150,7 +150,7 @@ jobs:
       - name: Fix permissions for output
         run: sudo chown -R $USER .
       - name: Save ccache
-        uses: actions/cache/save@v4
+        uses: buildjet/cache/save@v4
         with:
           path: |
             ${{ runner.temp }}/${{ matrix.target.id }}/.cache/ccache
