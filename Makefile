@@ -2,7 +2,7 @@ SHELL := /bin/bash
 REPO := https://github.com/virt-pvm/linux.git
 BASEURL := https://loopholelabs.github.io/linux-pvm-ci/
 
-obj = fedora/hetzner fedora/digitalocean fedora/aws fedora/gcp fedora/ovh fedora/linode \
+obj = fedora/hetzner fedora/digitalocean fedora/aws fedora/gcp fedora/ovh fedora/linode fedora/baremetal \
       rocky/hetzner rocky/digitalocean rocky/aws rocky/gcp rocky/equinix rocky/ovh rocky/azure rocky/civo rocky/linode \
       alma/hetzner alma/digitalocean alma/aws alma/gcp alma/equinix alma/ovh alma/azure alma/linode
 all: $(addprefix build/,$(obj))
@@ -32,6 +32,7 @@ patch/fedora/aws: patch/pre/fedora/aws
 patch/fedora/gcp: patch/pre/fedora/gcp
 patch/fedora/ovh: patch/pre/fedora/ovh
 patch/fedora/linode: patch/pre/fedora/linode
+patch/fedora/baremetal: patch/pre/fedora/baremetal
 
 patch/rocky/hetzner: patch/pre/rocky/hetzner
 patch/rocky/digitalocean: patch/pre/rocky/digitalocean
@@ -78,6 +79,7 @@ configure/fedora/gcp: configure/pre/fedora/gcp
 	cd work/fedora/gcp/linux && scripts/config -d CONFIG_X86_5LEVEL
 configure/fedora/ovh: configure/pre/fedora/ovh
 configure/fedora/linode: configure/pre/fedora/linode
+configure/fedora/baremetal: configure/pre/fedora/baremetal
 
 configure/rocky/hetzner: configure/pre/rocky/hetzner
 configure/rocky/digitalocean: configure/pre/rocky/digitalocean
@@ -129,6 +131,9 @@ build/fedora/ovh: build/pre/fedora/ovh
 build/fedora/linode: build/pre/fedora/linode
 	cd work/fedora/linode/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-fedora-linode rpm-pkg
 	$(MAKE) build/post/fedora/linode
+build/fedora/baremetal: build/pre/fedora/baremetal
+	cd work/fedora/baremetal/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-fedora-baremetal rpm-pkg
+	$(MAKE) build/post/fedora/baremetal
 
 build/rocky/hetzner: build/pre/rocky/hetzner
 	cd work/rocky/hetzner/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-rocky-hetzner rpm-pkg
@@ -202,6 +207,7 @@ package/fedora/aws: package/pre/fedora/aws
 package/fedora/gcp: package/pre/fedora/gcp
 package/fedora/ovh: package/pre/fedora/ovh
 package/fedora/linode: package/pre/fedora/linode
+package/fedora/baremetal: package/pre/fedora/baremetal
 
 package/rocky/hetzner: package/pre/rocky/hetzner
 package/rocky/digitalocean: package/pre/rocky/digitalocean

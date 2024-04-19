@@ -10,7 +10,7 @@ Kernel package CI for Linux with PVM patches applied
 
 ## Installation
 
-> Replace all occurrences of `fedora` to your distribution of choice (valid values are: `fedora`, `rocky`, `alma`) and `aws` to your cloud provider of choice (valid values are: `aws`, `digitalocean`, `hetzner`, `gcp`, `equinix`, `ovh`, `azure`, `civo`, `linode`)
+> Replace all occurrences of `fedora` to your distribution of choice (valid values are: `fedora`, `rocky`, `alma`) and `aws` to your cloud provider of choice (valid values are: `aws`, `digitalocean`, `hetzner`, `gcp`, `equinix`, `ovh`, `azure`, `civo`, `linode`, `baremetal`)
 
 ### With `cloud-init`
 

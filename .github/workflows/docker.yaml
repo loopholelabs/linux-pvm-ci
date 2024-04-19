@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   build-linux:
-    runs-on: ubuntu-latest
+    runs-on: buildjet-4vcpu-ubuntu-2204
     strategy:
       matrix:
         target:
@@ -42,6 +42,11 @@ jobs:
             src: .
             os: fedora:39
             cmd: ./Hydrunfile fedora linode
+            dst: out/*
+          - id: fedora-baremetal
+            src: .
+            os: fedora:39
+            cmd: ./Hydrunfile fedora baremetal
             dst: out/*
 
           - id: rocky-hetzner
@@ -162,7 +167,7 @@ jobs:
           path: ${{ matrix.target.dst }}
 
   publish-linux:
-    runs-on: ubuntu-latest
+    runs-on: buildjet-4vcpu-ubuntu-2204
     needs: build-linux
 
     steps:
