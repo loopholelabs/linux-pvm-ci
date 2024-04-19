@@ -2,9 +2,9 @@ SHELL := /bin/bash
 REPO := https://github.com/virt-pvm/linux.git
 BASEURL := https://loopholelabs.github.io/linux-pvm-ci/
 
-obj = fedora/hetzner fedora/digitalocean fedora/aws fedora/gcp fedora/ovh fedora/linode fedora/baremetal \
-      rocky/hetzner rocky/digitalocean rocky/aws rocky/gcp rocky/equinix rocky/ovh rocky/azure rocky/civo rocky/linode \
-      alma/hetzner alma/digitalocean alma/aws alma/gcp alma/equinix alma/ovh alma/azure alma/linode
+obj = fedora/baremetal fedora/hetzner fedora/digitalocean fedora/aws fedora/gcp fedora/ovh fedora/linode \
+      rocky/baremetal rocky/hetzner rocky/digitalocean rocky/aws rocky/gcp rocky/equinix rocky/ovh rocky/azure rocky/civo rocky/linode \
+      alma/baremetal alma/hetzner alma/digitalocean alma/aws alma/gcp alma/equinix alma/ovh alma/azure alma/linode
 all: $(addprefix build/,$(obj))
 
 clone:
@@ -26,14 +26,15 @@ $(addprefix patch/pre/,$(obj)):
 	 	git apply ../../../../patches/add-typedefs.patch && \
 	 	git apply ../../../../patches/fix-installkernel.patch
 
+patch/fedora/baremetal: patch/pre/fedora/baremetal
 patch/fedora/hetzner: patch/pre/fedora/hetzner
 patch/fedora/digitalocean: patch/pre/fedora/digitalocean
 patch/fedora/aws: patch/pre/fedora/aws
 patch/fedora/gcp: patch/pre/fedora/gcp
 patch/fedora/ovh: patch/pre/fedora/ovh
 patch/fedora/linode: patch/pre/fedora/linode
-patch/fedora/baremetal: patch/pre/fedora/baremetal
 
+patch/rocky/baremetal: patch/pre/rocky/baremetal
 patch/rocky/hetzner: patch/pre/rocky/hetzner
 patch/rocky/digitalocean: patch/pre/rocky/digitalocean
 patch/rocky/aws: patch/pre/rocky/aws
@@ -44,6 +45,7 @@ patch/rocky/azure: patch/pre/rocky/azure
 patch/rocky/civo: patch/pre/rocky/civo
 patch/rocky/linode: patch/pre/rocky/linode
 
+patch/alma/baremetal: patch/pre/alma/baremetal
 patch/alma/hetzner: patch/pre/alma/hetzner
 patch/alma/digitalocean: patch/pre/alma/digitalocean
 patch/alma/aws: patch/pre/alma/aws
@@ -71,6 +73,7 @@ $(addprefix configure/pre/,$(obj)):
 		scripts/config -d DEBUG_INFO_DWARF5 && \
 		scripts/config --set-str SYSTEM_TRUSTED_KEYS ""
 
+configure/fedora/baremetal: configure/pre/fedora/baremetal
 configure/fedora/hetzner: configure/pre/fedora/hetzner
 configure/fedora/digitalocean: configure/pre/fedora/digitalocean
 configure/fedora/aws: configure/pre/fedora/aws
@@ -79,8 +82,8 @@ configure/fedora/gcp: configure/pre/fedora/gcp
 	cd work/fedora/gcp/linux && scripts/config -d CONFIG_X86_5LEVEL
 configure/fedora/ovh: configure/pre/fedora/ovh
 configure/fedora/linode: configure/pre/fedora/linode
-configure/fedora/baremetal: configure/pre/fedora/baremetal
 
+configure/rocky/baremetal: configure/pre/rocky/baremetal
 configure/rocky/hetzner: configure/pre/rocky/hetzner
 configure/rocky/digitalocean: configure/pre/rocky/digitalocean
 configure/rocky/aws: configure/pre/rocky/aws
@@ -93,6 +96,7 @@ configure/rocky/azure: configure/pre/rocky/azure
 configure/rocky/civo: configure/pre/rocky/civo
 configure/rocky/linode: configure/pre/rocky/linode
 
+configure/alma/baremetal: configure/pre/alma/baremetal
 configure/alma/hetzner: configure/pre/alma/hetzner
 configure/alma/digitalocean: configure/pre/alma/digitalocean
 configure/alma/aws: configure/pre/alma/aws
@@ -113,6 +117,9 @@ $(addprefix build/post/,$(obj)):
 	mkdir -p out/$(subst build/post/,,$@)
 	cp work/$(subst build/post/,,$@)/linux/rpmbuild/RPMS/x86_64/*.rpm out/$(subst build/post/,,$@)
 
+build/fedora/baremetal: build/pre/fedora/baremetal
+	cd work/fedora/baremetal/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-fedora-baremetal rpm-pkg
+	$(MAKE) build/post/fedora/baremetal
 build/fedora/hetzner: build/pre/fedora/hetzner
 	cd work/fedora/hetzner/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-fedora-hetzner rpm-pkg
 	$(MAKE) build/post/fedora/hetzner
@@ -131,10 +138,10 @@ build/fedora/ovh: build/pre/fedora/ovh
 build/fedora/linode: build/pre/fedora/linode
 	cd work/fedora/linode/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-fedora-linode rpm-pkg
 	$(MAKE) build/post/fedora/linode
-build/fedora/baremetal: build/pre/fedora/baremetal
-	cd work/fedora/baremetal/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-fedora-baremetal rpm-pkg
-	$(MAKE) build/post/fedora/baremetal
 
+build/rocky/baremetal: build/pre/rocky/baremetal
+	cd work/rocky/baremetal/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-rocky-baremetal rpm-pkg
+	$(MAKE) build/post/rocky/baremetal
 build/rocky/hetzner: build/pre/rocky/hetzner
 	cd work/rocky/hetzner/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-rocky-hetzner rpm-pkg
 	$(MAKE) build/post/rocky/hetzner
@@ -163,6 +170,9 @@ build/rocky/linode: build/pre/rocky/linode
 	cd work/rocky/linode/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-rocky-linode rpm-pkg
 	$(MAKE) build/post/rocky/linode
 
+build/alma/baremetal: build/pre/alma/baremetal
+	cd work/alma/baremetal/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-alma-baremetal rpm-pkg
+	$(MAKE) build/post/alma/baremetal
 build/alma/hetzner: build/pre/alma/hetzner
 	cd work/alma/hetzner/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-rc6-pvm-host-alma-hetzner rpm-pkg
 	$(MAKE) build/post/alma/hetzner
@@ -201,14 +211,15 @@ $(addprefix package/pre/,$(obj)):
 	gpgcheck=1\n\
 	gpgkey=${BASEURL}/$(subst package/pre/,,$@)/repodata/repo.asc" > "out/$(subst package/pre/,,$@)/repodata/linux-pvm-ci.repo"
 
+package/fedora/baremetal: package/pre/fedora/baremetal
 package/fedora/hetzner: package/pre/fedora/hetzner
 package/fedora/digitalocean: package/pre/fedora/digitalocean
 package/fedora/aws: package/pre/fedora/aws
 package/fedora/gcp: package/pre/fedora/gcp
 package/fedora/ovh: package/pre/fedora/ovh
 package/fedora/linode: package/pre/fedora/linode
-package/fedora/baremetal: package/pre/fedora/baremetal
 
+package/rocky/baremetal: package/pre/rocky/baremetal
 package/rocky/hetzner: package/pre/rocky/hetzner
 package/rocky/digitalocean: package/pre/rocky/digitalocean
 package/rocky/aws: package/pre/rocky/aws
@@ -219,6 +230,7 @@ package/rocky/azure: package/pre/rocky/azure
 package/rocky/civo: package/pre/rocky/civo
 package/rocky/linode: package/pre/rocky/linode
 
+package/alma/baremetal: package/pre/alma/baremetal
 package/alma/hetzner: package/pre/alma/hetzner
 package/alma/digitalocean: package/pre/alma/digitalocean
 package/alma/aws: package/pre/alma/aws
