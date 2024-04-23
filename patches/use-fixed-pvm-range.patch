@@ -1,0 +1,32 @@
+From: bysui <a971379855@gmail.com>
+Subject: https://github.com/virt-pvm/linux/issues/7#issuecomment-2069445537
+---
+diff --git a/arch/x86/kvm/pvm/host_mmu.c b/arch/x86/kvm/pvm/host_mmu.c
+index 35e97f4f7..f4da658b1 100644
+--- a/arch/x86/kvm/pvm/host_mmu.c
++++ b/arch/x86/kvm/pvm/host_mmu.c
+@@ -35,8 +35,9 @@ static int __init guest_address_space_init(void)
+ 		return -1;
+ 	}
+ 
+-	pvm_va_range_l4 = get_vm_area_align(DEFAULT_RANGE_L4_SIZE, PT_L4_SIZE,
+-			  VM_ALLOC|VM_NO_GUARD);
++    pvm_va_range_l4 = __get_vm_area_caller(DEFAULT_RANGE_L4_SIZE, VM_ALLOC|VM_NO_GUARD,
++                                           VMALLOC_END - DEFAULT_RANGE_L4_SIZE, VMALLOC_END,
++                                           __builtin_return_address(0));
+ 	if (!pvm_va_range_l4)
+ 		return -1;
+ 
+diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+index 6e4b95f24..0b8b2d4ed 100644
+--- a/mm/vmalloc.c
++++ b/mm/vmalloc.c
+@@ -2623,6 +2623,8 @@ struct vm_struct *__get_vm_area_caller(unsigned long size, unsigned long flags,
+ 				  NUMA_NO_NODE, GFP_KERNEL, caller);
+ }
+ 
+++EXPORT_SYMBOL_GPL(__get_vm_area_caller);
++
+ /**
+  * get_vm_area - reserve a contiguous kernel virtual area
+  * @size:	 size of the area

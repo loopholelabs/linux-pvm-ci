@@ -30,6 +30,9 @@ patch/fedora/baremetal: patch/pre/fedora/baremetal
 patch/fedora/hetzner: patch/pre/fedora/hetzner
 patch/fedora/digitalocean: patch/pre/fedora/digitalocean
 patch/fedora/aws: patch/pre/fedora/aws
+	cd work/fedora/aws/linux && \
+	 	git apply ../../../../patches/use-fixed-pvm-range.patch && \
+	 	git apply ../../../../patches/add-xsave-debug-logs.patch
 patch/fedora/gcp: patch/pre/fedora/gcp
 patch/fedora/ovh: patch/pre/fedora/ovh
 patch/fedora/linode: patch/pre/fedora/linode
@@ -38,6 +41,9 @@ patch/rocky/baremetal: patch/pre/rocky/baremetal
 patch/rocky/hetzner: patch/pre/rocky/hetzner
 patch/rocky/digitalocean: patch/pre/rocky/digitalocean
 patch/rocky/aws: patch/pre/rocky/aws
+	cd work/rocky/aws/linux && \
+	 	git apply ../../../../patches/use-fixed-pvm-range.patch && \
+	 	git apply ../../../../patches/add-xsave-debug-logs.patch
 patch/rocky/gcp: patch/pre/rocky/gcp
 patch/rocky/equinix: patch/pre/rocky/equinix
 patch/rocky/ovh: patch/pre/rocky/ovh
@@ -49,6 +55,9 @@ patch/alma/baremetal: patch/pre/alma/baremetal
 patch/alma/hetzner: patch/pre/alma/hetzner
 patch/alma/digitalocean: patch/pre/alma/digitalocean
 patch/alma/aws: patch/pre/alma/aws
+	cd work/alma/aws/linux && \
+	 	git apply ../../../../patches/use-fixed-pvm-range.patch && \
+	 	git apply ../../../../patches/add-xsave-debug-logs.patch
 patch/alma/gcp: patch/pre/alma/gcp
 patch/alma/equinix: patch/pre/alma/equinix
 patch/alma/ovh: patch/pre/alma/ovh
