@@ -198,6 +198,8 @@ jobs:
           for dir in ${{ runner.temp }}/out/*/; do
             rsync -a "${dir}"/ ${{ runner.temp }}/github-pages/
           done
+
+          touch ${{ runner.temp }}/github-pages/.nojekyll
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
       - name: Upload GitHub Pages artifact
