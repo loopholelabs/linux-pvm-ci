@@ -25,7 +25,7 @@ index 6e4b95f24..0b8b2d4ed 100644
  				  NUMA_NO_NODE, GFP_KERNEL, caller);
  }
  
-++EXPORT_SYMBOL_GPL(__get_vm_area_caller);
++ EXPORT_SYMBOL_GPL(__get_vm_area_caller);
 +
  /**
   * get_vm_area - reserve a contiguous kernel virtual area
