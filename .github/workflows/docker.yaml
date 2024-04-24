@@ -53,6 +53,7 @@ jobs:
             src: .
             os: fedora:39
             cmd: ./Hydrunfile rocky baremetal
+            dst: out/*
           - id: rocky-hetzner
             src: .
             os: fedora:39
