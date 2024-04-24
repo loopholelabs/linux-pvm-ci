@@ -193,8 +193,10 @@ jobs:
           for dir in ${{ runner.temp }}/out/*/; do
             rsync -a "${dir}"/ ${{ runner.temp }}/github-pages/
           done
+      - name: Increase Git buffer size to support pushing large files
+        run: git config --global http.postBuffer 16G
       - name: Publish to GitHub pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ${{ runner.temp }}/github-pages/
