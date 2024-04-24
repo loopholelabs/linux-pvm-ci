@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   build-linux:
-    runs-on: buildjet-4vcpu-ubuntu-2204
+    runs-on: depot-ubuntu-22.04-32
     strategy:
       matrix:
         target:
@@ -149,9 +149,9 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Restore ccache
-        uses: buildjet/cache/restore@v4
+        uses: actions/cache/restore@v4
         with:
           path: |
             ${{ runner.temp }}/${{ matrix.target.id }}/.cache/ccache
@@ -166,19 +166,19 @@ jobs:
       - name: Fix permissions for output
         run: sudo chown -R $USER .
       - name: Save ccache
-        uses: buildjet/cache/save@v4
+        uses: actions/cache/save@v4
         with:
           path: |
             ${{ runner.temp }}/${{ matrix.target.id }}/.cache/ccache
           key: ccache-${{ matrix.target.id }}
       - name: Upload output
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.target.id }}
           path: ${{ matrix.target.dst }}
 
   publish-linux:
-    runs-on: buildjet-4vcpu-ubuntu-2204
+    runs-on: depot-ubuntu-22.04-32
     needs: build-linux
     if: ${{ github.ref == 'refs/heads/master' }}
     environment:
@@ -187,9 +187,9 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Download output
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           path: ${{ runner.temp }}/out
       - name: Isolate the repositories
