@@ -155,7 +155,7 @@ jobs:
         with:
           path: |
             ${{ runner.temp }}/${{ matrix.target.id }}/.cache/ccache
-          key: ccache-${{ matrix.target.id }}
+          key: cache-ccache-${{ matrix.target.id }}
       - name: Build with Docker
         working-directory: ${{ matrix.target.src }}
         env:
@@ -170,7 +170,7 @@ jobs:
         with:
           path: |
             ${{ runner.temp }}/${{ matrix.target.id }}/.cache/ccache
-          key: ccache-${{ matrix.target.id }}
+          key: cache-ccache-${{ matrix.target.id }}
       - name: Upload output
         uses: actions/upload-artifact@v4
         with:
