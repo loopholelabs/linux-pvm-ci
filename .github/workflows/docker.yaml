@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   build-linux:
-    runs-on: depot-ubuntu-22.04-32
+    runs-on: buildjet-4vcpu-ubuntu-2204
     strategy:
       matrix:
         target:
@@ -151,7 +151,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Restore ccache
-        uses: actions/cache/restore@v4
+        uses: buildjet/cache/restore@v4
         with:
           path: |
             ${{ runner.temp }}/${{ matrix.target.id }}/.cache/ccache
@@ -166,7 +166,7 @@ jobs:
       - name: Fix permissions for output
         run: sudo chown -R $USER .
       - name: Save ccache
-        uses: actions/cache/save@v4
+        uses: buildjet/cache/save@v4
         with:
           path: |
             ${{ runner.temp }}/${{ matrix.target.id }}/.cache/ccache
@@ -178,7 +178,7 @@ jobs:
           path: ${{ matrix.target.dst }}
 
   publish-linux:
-    runs-on: depot-ubuntu-22.04-32
+    runs-on: buildjet-4vcpu-ubuntu-2204
     needs: build-linux
     if: ${{ github.ref == 'refs/heads/master' }}
     environment:
