@@ -79,9 +79,7 @@ configure/fedora/baremetal: configure/pre/fedora/baremetal
 configure/fedora/hetzner: configure/pre/fedora/hetzner
 configure/fedora/digitalocean: configure/pre/fedora/digitalocean
 configure/fedora/aws: configure/pre/fedora/aws
-# CONFIG_X86_5LEVEL: To prevent https://github.com/virt-pvm/linux/issues/6
 configure/fedora/gcp: configure/pre/fedora/gcp
-	cd work/fedora/gcp/linux && scripts/config -d CONFIG_X86_5LEVEL
 configure/fedora/ovh: configure/pre/fedora/ovh
 configure/fedora/linode: configure/pre/fedora/linode
 
@@ -89,9 +87,7 @@ configure/rocky/baremetal: configure/pre/rocky/baremetal
 configure/rocky/hetzner: configure/pre/rocky/hetzner
 configure/rocky/digitalocean: configure/pre/rocky/digitalocean
 configure/rocky/aws: configure/pre/rocky/aws
-# CONFIG_X86_5LEVEL: To prevent https://github.com/virt-pvm/linux/issues/6
 configure/rocky/gcp: configure/pre/rocky/gcp
-	cd work/rocky/gcp/linux && scripts/config -d CONFIG_X86_5LEVEL
 configure/rocky/equinix: configure/pre/rocky/equinix
 configure/rocky/ovh: configure/pre/rocky/ovh
 configure/rocky/azure: configure/pre/rocky/azure
@@ -102,9 +98,7 @@ configure/alma/baremetal: configure/pre/alma/baremetal
 configure/alma/hetzner: configure/pre/alma/hetzner
 configure/alma/digitalocean: configure/pre/alma/digitalocean
 configure/alma/aws: configure/pre/alma/aws
-# CONFIG_X86_5LEVEL: To prevent https://github.com/virt-pvm/linux/issues/6
 configure/alma/gcp: configure/pre/alma/gcp
-	cd work/alma/gcp/linux && scripts/config -d CONFIG_X86_5LEVEL
 configure/alma/equinix: configure/pre/alma/equinix
 configure/alma/ovh: configure/pre/alma/ovh
 configure/alma/azure: configure/pre/alma/azure
