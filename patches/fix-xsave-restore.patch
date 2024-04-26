@@ -5,7 +5,7 @@ diff --git a/arch/x86/kvm/pvm/pvm.c b/arch/x86/kvm/pvm/pvm.c
 index 37e8a19bc..97babe4a7 100644
 --- a/arch/x86/kvm/pvm/pvm.c
 +++ b/arch/x86/kvm/pvm/pvm.c
-@@ -1176,10 +1176,14 @@ static int pvm_set_msr(struct kvm_vcpu *vcpu, struct msr_data *msr_info)
+@@ -1176,10 +1176,13 @@ static int pvm_set_msr(struct kvm_vcpu *vcpu, struct msr_data *msr_info)
  		 * user memory region before the VM entry.
  		 */
  		pvm->msr_vcpu_struct = data;
@@ -14,7 +14,6 @@ index 37e8a19bc..97babe4a7 100644
  			kvm_gpc_deactivate(&pvm->pvcs_gpc);
 -		else if (kvm_gpc_activate(&pvm->pvcs_gpc, data, PAGE_SIZE))
 -			return 1;
-+		}
 +		} else if (kvm_gpc_activate(&pvm->pvcs_gpc, data, PAGE_SIZE)) {
 +            if (msr_info->host_initiated)
 +                    kvm_make_request(KVM_REQ_GPC_REFRESH, vcpu);
