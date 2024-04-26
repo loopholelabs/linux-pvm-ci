@@ -12,6 +12,8 @@ Kernel package CI for Linux with PVM patches applied
 
 > Replace all occurrences of `fedora` to your distribution of choice (valid values are: `fedora`, `rocky`, `alma`) and `hetzner` to your cloud provider of choice (valid values are: `baremetal`, `hetzner`, `digitalocean`, `aws`, `gcp`, `equinix`, `ovh`, `azure`, `civo`, `linode`)
 
+> Note that saving and restoring a snapshot between 4-level paging mode hosts (such as older AWS machine models) and 5-level paging mode hosts (such as newer GCP machine models) is not possible at this time (see [https://github.com/virt-pvm/linux/issues/6#issuecomment-2076990347](https://github.com/virt-pvm/linux/issues/6#issuecomment-2076990347))
+
 ### With `cloud-init`
 
 ```yaml
