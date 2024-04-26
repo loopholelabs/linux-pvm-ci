@@ -2,13 +2,6 @@
 
 set -e
 
-# Install native dependencies for Fedora, Rocky Linux and Alma Linux (all use a Fedora image for builds)
-if [ "$1" = "fedora" ] || [ "$1" = "rocky" ] || [ "$1" = "alma" ]; then
-    sudo dnf group install -y "Development Tools"
-    sudo dnf install -y fedora-packager rpmdevtools perl ccache rpm-sign
-    sudo dnf builddep -y kernel
-fi
-
 # Configure Git
 git config --global --add safe.directory '*'
 

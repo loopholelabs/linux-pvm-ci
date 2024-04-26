@@ -1,149 +1,215 @@
-name: Docker CI
+name: Kernel CI
 
 on:
   - push
 
-permissions:
-  contents: write
-  pages: write
-  id-token: write
-
 jobs:
-  build-linux:
+  build-oci-image:
     runs-on: depot-ubuntu-22.04-32
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    strategy:
+      matrix:
+        target:
+          - src: .
+            image: ghcr.io/loopholelabs/linux-pvm-ci-build-base
+            arch: "linux/amd64" # linux/arm/v5,linux/arm/v7,linux/arm64/v8,linux/386,linux/s390x,linux/mips64le,linux/ppc64le
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up metadata
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ matrix.target.image }}
+          tags: type=semver,pattern={{version}}
+      - name: Build image
+        uses: docker/build-push-action@v2
+        with:
+          context: ${{ matrix.target.src }}
+          file: ${{ matrix.target.src }}/Dockerfile
+          platforms: ${{ matrix.target.arch }}
+          push: false
+          tags: ${{ matrix.target.image }}:${{ github.ref_name }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Push pre-release image to registry
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: docker/build-push-action@v2
+        with:
+          context: ${{ matrix.target.src }}
+          file: ${{ matrix.target.src }}/Dockerfile
+          platforms: ${{ matrix.target.arch }}
+          push: true
+          tags: ${{ matrix.target.image }}:${{ github.ref_name }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Push release image to registry
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: docker/build-push-action@v2
+        with:
+          context: ${{ matrix.target.src }}
+          file: ${{ matrix.target.src }}/Dockerfile
+          platforms: ${{ matrix.target.arch }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  build-kernel:
+    runs-on: depot-ubuntu-22.04-32
+    needs: build-oci-image
+    permissions:
+      contents: read
     strategy:
       matrix:
         target:
           - id: fedora-baremetal
             src: .
-            os: fedora:39
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
             cmd: ./Hydrunfile fedora baremetal
             dst: out/*
           - id: fedora-hetzner
             src: .
-            os: fedora:39
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
             cmd: ./Hydrunfile fedora hetzner
             dst: out/*
           - id: fedora-digitalocean
             src: .
-            os: fedora:39
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
             cmd: ./Hydrunfile fedora digitalocean
             dst: out/*
           - id: fedora-aws
             src: .
-            os: fedora:39
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
             cmd: ./Hydrunfile fedora aws
             dst: out/*
           - id: fedora-gcp
             src: .
-            os: fedora:39
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
             cmd: ./Hydrunfile fedora gcp
             dst: out/*
           - id: fedora-ovh
             src: .
-            os: fedora:39
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
             cmd: ./Hydrunfile fedora ovh
             dst: out/*
           - id: fedora-linode
             src: .
-            os: fedora:39
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
             cmd: ./Hydrunfile fedora linode
             dst: out/*
 
           - id: rocky-baremetal
             src: .
-            os: fedora:39
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
             cmd: ./Hydrunfile rocky baremetal
             dst: out/*
           - id: rocky-hetzner
             src: .
-            os: fedora:39
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
             cmd: ./Hydrunfile rocky hetzner
             dst: out/*
           - id: rocky-digitalocean
             src: .
-            os: fedora:39
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
             cmd: ./Hydrunfile rocky digitalocean
             dst: out/*
           - id: rocky-aws
             src: .
-            os: fedora:39
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
             cmd: ./Hydrunfile rocky aws
             dst: out/*
           - id: rocky-gcp
             src: .
-            os: fedora:39
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
             cmd: ./Hydrunfile rocky gcp
             dst: out/*
           - id: rocky-equinix
             src: .
-            os: fedora:39
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
             cmd: ./Hydrunfile rocky equinix
             dst: out/*
           - id: rocky-ovh
             src: .
-            os: fedora:39
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
             cmd: ./Hydrunfile rocky ovh
             dst: out/*
           - id: rocky-azure
             src: .
-            os: fedora:39
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
             cmd: ./Hydrunfile rocky azure
             dst: out/*
           - id: rocky-civo
             src: .
-            os: fedora:39
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
             cmd: ./Hydrunfile rocky civo
             dst: out/*
           - id: rocky-linode
             src: .
-            os: fedora:39
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
             cmd: ./Hydrunfile rocky linode
             dst: out/*
 
           - id: alma-baremetal
             src: .
-            os: fedora:39
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
             cmd: ./Hydrunfile alma baremetal
             dst: out/*
           - id: alma-hetzner
             src: .
-            os: fedora:39
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
             cmd: ./Hydrunfile alma hetzner
             dst: out/*
           - id: alma-digitalocean
             src: .
-            os: fedora:39
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
             cmd: ./Hydrunfile alma digitalocean
             dst: out/*
           - id: alma-aws
             src: .
-            os: fedora:39
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
             cmd: ./Hydrunfile alma aws
             dst: out/*
           - id: alma-gcp
             src: .
-            os: fedora:39
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
             cmd: ./Hydrunfile alma gcp
             dst: out/*
           - id: alma-equinix
             src: .
-            os: fedora:39
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
             cmd: ./Hydrunfile alma equinix
             dst: out/*
           - id: alma-ovh
             src: .
-            os: fedora:39
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
             cmd: ./Hydrunfile alma ovh
             dst: out/*
           - id: alma-azure
             src: .
-            os: fedora:39
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
             cmd: ./Hydrunfile alma azure
             dst: out/*
           - id: alma-linode
             src: .
-            os: fedora:39
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
             cmd: ./Hydrunfile alma linode
             dst: out/*
 
@@ -177,9 +243,13 @@ jobs:
           name: ${{ matrix.target.id }}
           path: ${{ matrix.target.dst }}
 
-  publish-linux:
+  publish-kernel:
     runs-on: depot-ubuntu-22.04-32
-    needs: build-linux
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    needs: build-kernel
     if: ${{ github.ref == 'refs/heads/master' }}
     environment:
       name: github-pages

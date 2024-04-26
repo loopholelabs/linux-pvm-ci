@@ -2,7 +2,7 @@
 
 Kernel package CI for Linux with PVM patches applied
 
-[![Docker CI](https://github.com/loopholelabs/linux-pvm-ci/actions/workflows/docker.yaml/badge.svg)](https://github.com/loopholelabs/linux-pvm-ci/actions/workflows/docker.yaml)
+[![Kernel CI](https://github.com/loopholelabs/linux-pvm-ci/actions/workflows/kernel.yaml/badge.svg)](https://github.com/loopholelabs/linux-pvm-ci/actions/workflows/kernel.yaml)
 
 ## Overview
 
