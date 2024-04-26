@@ -5,7 +5,7 @@ on:
 
 jobs:
   build-oci-image:
-    runs-on: depot-ubuntu-22.04-32
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
