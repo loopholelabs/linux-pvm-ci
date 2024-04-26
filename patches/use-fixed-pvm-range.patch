@@ -1,32 +1,93 @@
 From: bysui <a971379855@gmail.com>
-Subject: https://github.com/virt-pvm/linux/issues/7#issuecomment-2069445537
+Subject: https://github.com/virt-pvm/linux/issues/7#issuecomment-2079017654
 ---
-diff --git a/arch/x86/kvm/pvm/host_mmu.c b/arch/x86/kvm/pvm/host_mmu.c
-index 35e97f4f7..f4da658b1 100644
---- a/arch/x86/kvm/pvm/host_mmu.c
-+++ b/arch/x86/kvm/pvm/host_mmu.c
-@@ -35,8 +35,9 @@ static int __init guest_address_space_init(void)
- 		return -1;
+diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+index adcea8ecf..8b883523c 100644
+--- a/arch/x86/kernel/setup.c
++++ b/arch/x86/kernel/setup.c
+@@ -719,6 +719,27 @@ static void __init x86_report_nx(void)
  	}
- 
--	pvm_va_range_l4 = get_vm_area_align(DEFAULT_RANGE_L4_SIZE, PT_L4_SIZE,
--			  VM_ALLOC|VM_NO_GUARD);
-+    pvm_va_range_l4 = __get_vm_area_caller(DEFAULT_RANGE_L4_SIZE, VM_ALLOC|VM_NO_GUARD,
-+                                           VMALLOC_END - DEFAULT_RANGE_L4_SIZE, VMALLOC_END,
-+                                           __builtin_return_address(0));
- 	if (!pvm_va_range_l4)
- 		return -1;
- 
-diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-index 6e4b95f24..0b8b2d4ed 100644
---- a/mm/vmalloc.c
-+++ b/mm/vmalloc.c
-@@ -2623,6 +2623,8 @@ struct vm_struct *__get_vm_area_caller(unsigned long size, unsigned long flags,
- 				  NUMA_NO_NODE, GFP_KERNEL, caller);
  }
  
-+ EXPORT_SYMBOL_GPL(__get_vm_area_caller);
++#ifdef CONFIG_X86_64
++static void __init x86_reserve_vmalloc_range(void)
++{
++       static struct vm_struct pvm;
++       unsigned long size = 32UL << 39;
++
++       if (pgtable_l5_enabled())
++               size = 32UL << 48;
++
++       pvm.addr = (void *)(VMALLOC_END + 1 - size);
++       pvm.size = size;
++       pvm.flags = VM_ALLOC | VM_NO_GUARD;
++
++       vm_area_add_early(&pvm);
++}
++#else
++static void __init x86_reserve_vmalloc_range(void)
++{
++}
++#endif
++
+ /*
+  * Determine if we were loaded by an EFI loader.  If so, then we have also been
+  * passed the efi memmap, systab, etc., so we should use these data structures
+@@ -961,6 +982,7 @@ void __init setup_arch(char **cmdline_p)
+ 	 * defined and before each memory section base is used.
+ 	 */
+ 	kernel_randomize_memory();
++	x86_reserve_vmalloc_range();
+ 
+ #ifdef CONFIG_X86_32
+ 	/* max_low_pfn get updated here */
+diff --git a/arch/x86/kvm/pvm/host_mmu.c b/arch/x86/kvm/pvm/host_mmu.c
+index a60a7c78c..3ead2b301 100644
+--- a/arch/x86/kvm/pvm/host_mmu.c
++++ b/arch/x86/kvm/pvm/host_mmu.c
+@@ -51,9 +51,8 @@ static int __init guest_address_space_init(void)
+ 		pml4_index_start = L4_PT_INDEX(PVM_GUEST_MAPPING_START);
+ 		pml4_index_end = L4_PT_INDEX(RAW_CPU_ENTRY_AREA_BASE);
+ 
+-		pvm_va_range = get_vm_area_align(DEFAULT_RANGE_L5_SIZE, PT_L5_SIZE,
+-						 VM_ALLOC|VM_NO_GUARD);
+-		if (!pvm_va_range) {
++        pvm_va_range = find_vm_area((void *)(VMALLOC_END + 1 - DEFAULT_RANGE_L5_SIZE));
++        if (!pvm_va_range || pvm_va_range->size != DEFAULT_RANGE_L5_SIZE)
+ 			pml5_index_start = 0x1ff;
+ 			pml5_index_end = 0x1ff;
+ 		} else {
+@@ -62,9 +61,8 @@ static int __init guest_address_space_init(void)
+ 						     (u64)pvm_va_range->size);
+ 		}
+ 	} else {
+-		pvm_va_range = get_vm_area_align(DEFAULT_RANGE_L4_SIZE, PT_L4_SIZE,
+-						 VM_ALLOC|VM_NO_GUARD);
+-		if (!pvm_va_range)
++		pvm_va_range = find_vm_area((void *)(VMALLOC_END + 1 - DEFAULT_RANGE_L4_SIZE));_vm_area_align(DEFAULT_RANGE_L4_SIZE, PT_L4_SIZE,
++		if (!pvm_va_range || pvm_va_range->size != DEFAULT_RANGE_L4_SIZE)O_GUARD);
+ 			return -1;
+ 
+ 		pml4_index_start = L4_PT_INDEX((u64)pvm_va_range->addr);
+@@ -133,8 +131,6 @@ int __init host_mmu_init(void)
+ 
+ void host_mmu_destroy(void)
+ {
+-	if (pvm_va_range)
+-		free_vm_area(pvm_va_range);
+ 	if (host_mmu_root_pgd)
+ 		free_page((unsigned long)(void *)host_mmu_root_pgd);
+ 	if (host_mmu_la57_top_p4d)
+diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+index 6e4b95f24..64ba3bbb4 100644
+--- a/mm/vmalloc.c
++++ b/mm/vmalloc.c
+@@ -2681,6 +2681,8 @@ struct vm_struct *find_vm_area(const void *addr)
+ 	return va->vm;
+ }
+ 
++EXPORT_SYMBOL_GPL(find_vm_area);
 +
  /**
-  * get_vm_area - reserve a contiguous kernel virtual area
-  * @size:	 size of the area
+  * remove_vm_area - find and remove a continuous kernel virtual area
+  * @addr:	    base address
