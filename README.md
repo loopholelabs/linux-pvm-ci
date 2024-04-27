@@ -14,6 +14,8 @@ Kernel package CI for Linux with PVM patches applied
 
 > Note that saving and restoring a snapshot between 4-level paging mode hosts (such as older AWS machine models) and 5-level paging mode hosts (such as newer GCP machine models) is not possible at this time (see [https://github.com/virt-pvm/linux/issues/6#issuecomment-2076990347](https://github.com/virt-pvm/linux/issues/6#issuecomment-2076990347))
 
+> We set `lapic=notscdeadline` on the host to fix freezes during snapshot restores to work around [https://github.com/firecracker-microvm/firecracker/issues/4099](https://github.com/firecracker-microvm/firecracker/issues/4099)
+
 ### With `cloud-init`
 
 ```yaml
@@ -22,7 +24,7 @@ runcmd:
   - dnf config-manager --add-repo 'https://loopholelabs.github.io/linux-pvm-ci/fedora/hetzner/repodata/linux-pvm-ci.repo'
   - dnf install -y kernel-6.7.0_rc6_pvm_host_fedora_hetzner-1.x86_64
   - grubby --set-default /boot/vmlinuz-6.7.0-rc6-pvm-host-fedora-hetzner
-  - grubby --args="pti=off nokaslr" --update-kernel /boot/vmlinuz-6.7.0-rc6-pvm-host-fedora-hetzner
+  - grubby --args="pti=off nokaslr lapic=notscdeadline" --update-kernel /boot/vmlinuz-6.7.0-rc6-pvm-host-fedora-hetzner
   - reboot
 
 write_files:
@@ -50,7 +52,7 @@ sudo dnf install -y kernel-6.7.0_rc6_pvm_host_fedora_hetzner-1.x86_64
 
 ```shell
 sudo grubby --set-default /boot/vmlinuz-6.7.0-rc6-pvm-host-fedora-hetzner
-sudo grubby --args="pti=off nokaslr" --update-kernel /boot/vmlinuz-6.7.0-rc6-pvm-host-fedora-hetzner
+sudo grubby --args="pti=off nokaslr lapic=notscdeadline" --update-kernel /boot/vmlinuz-6.7.0-rc6-pvm-host-fedora-hetzner
 ```
 
 ```shell
