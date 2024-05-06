@@ -25,8 +25,7 @@ $(addprefix patch/pre/,$(obj)):
 	cd work/$(subst patch/pre/,,$@)/linux && \
 	 	git apply ../../../../patches/add-typedefs.patch && \
 	 	git apply ../../../../patches/fix-installkernel.patch && \
-		git apply ../../../../patches/use-fixed-pvm-range.patch && \
-	 	git apply ../../../../patches/fix-xsave-restore.patch
+		git apply ../../../../patches/use-fixed-pvm-range.patch
 
 patch/fedora/baremetal: patch/pre/fedora/baremetal
 patch/fedora/hetzner: patch/pre/fedora/hetzner
