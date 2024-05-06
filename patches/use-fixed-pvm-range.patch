@@ -69,6 +69,15 @@ index a60a7c78c..3ead2b301 100644
  			return -1;
  
  		pml4_index_start = L4_PT_INDEX((u64)pvm_va_range->addr);
+@@ -133,8 +131,6 @@ int __init host_mmu_init(void)
+ 
+ void host_mmu_destroy(void)
+ {
+-	if (pvm_va_range)
+-		free_vm_area(pvm_va_range);
+ 	if (host_mmu_root_pgd)
+ 		free_page((unsigned long)(void *)host_mmu_root_pgd);
+ 	if (host_mmu_la57_top_p4d)
 diff --git a/mm/vmalloc.c b/mm/vmalloc.c
 index 6e4b95f24..64ba3bbb4 100644
 --- a/mm/vmalloc.c
