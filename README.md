@@ -6,7 +6,9 @@ Kernel package CI for Linux with PVM patches applied
 
 ## Overview
 
-🚧 This project is a work-in-progress! Instructions will be added as soon as it is usable. 🚧
+This project builds the Linux kernel as RPM packages for various Linux distros and cloud-provider specific configurations with the [PVM patches](https://github.com/virt-pvm/linux) applied. It also adds a few [custom patches](./patches) to allow snapshot/restore across heterogeneous systems, such as between different cloud providers.
+
+**Interested in using PVM to live migrate VMs between cloud providers or need guest kernel builds?** Check out [Loophole Labs Architect](https://architect.run/) and [Loophole Labs Drafter](https://github.com/loopholelabs/drafter)!
 
 ## Installation
 
@@ -73,7 +75,7 @@ lsmod | grep pvm # Check if PVM is available
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at [https://github.com/loopholelabs/linux-pvm-ci][gitrepo]. For more contribution information check out [the contribution guide](https://github.com/loopholelabs/linux-pvm-ci/blob/master/CONTRIBUTING.md).
+Bug reports and pull requests are welcome on GitHub at [https://github.com/loopholelabs/linux-pvm-ci](https://github.com/loopholelabs/linux-pvm-ci). For more contribution information check out [the contribution guide](./CONTRIBUTING.md).
 
 ## License
 
@@ -85,8 +87,4 @@ Everyone interacting in the Linux PVM CI project's codebases, issue trackers, ch
 
 ## Project Managed By:
 
-[![https://loopholelabs.io][loopholelabs]](https://loopholelabs.io)
-
-[gitrepo]: https://github.com/loopholelabs/linux-pvm-ci
-[loopholelabs]: https://cdn.loopholelabs.io/loopholelabs/LoopholeLabsLogo.svg
-[loophomepage]: https://loopholelabs.io
+[![https://loopholelabs.io](https://cdn.loopholelabs.io/loopholelabs/LoopholeLabsLogo.svg)](https://loopholelabs.io)
