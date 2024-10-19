@@ -13,3 +13,18 @@ index 3b2bcdc6f..bb59a5013 100644
  #ifndef __ASSEMBLY__
  typedef void (*idtentry_t)(struct pt_regs *regs);
  
+diff --git a/arch/x86/include/uapi/asm/pvm_para.h b/arch/x86/include/uapi/asm/pvm_para.h
+index f442fb7aa918..dae18f2d3eca 100644
+--- a/arch/x86/include/uapi/asm/pvm_para.h
++++ b/arch/x86/include/uapi/asm/pvm_para.h
+@@ -4,6 +4,10 @@
+ 
+ #include <linux/const.h>
+ 
++typedef unsigned long long u64;
++typedef unsigned int u32;
++typedef unsigned short u16;
++
+ /*
+  * The CPUID instruction in PVM guest can't be trapped and emulated,
+  * so PVM guest should use the following two instructions instead:
