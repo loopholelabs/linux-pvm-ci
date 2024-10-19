@@ -24,9 +24,9 @@ This project builds the Linux kernel as RPM packages for various Linux distros a
 #cloud-config
 runcmd:
   - dnf config-manager --add-repo 'https://loopholelabs.github.io/linux-pvm-ci/fedora/hetzner/repodata/linux-pvm-ci.repo'
-  - dnf install -y kernel-6.7.0_rc6_pvm_host_fedora_hetzner-1.x86_64
-  - grubby --set-default /boot/vmlinuz-6.7.0-rc6-pvm-host-fedora-hetzner
-  - grubby --args="pti=off nokaslr lapic=notscdeadline" --update-kernel /boot/vmlinuz-6.7.0-rc6-pvm-host-fedora-hetzner
+  - dnf install -y kernel-6.7.12_pvm_host_fedora_hetzner-1.x86_64
+  - grubby --set-default /boot/vmlinuz-6.7.12-pvm-host-fedora-hetzner
+  - grubby --args="pti=off nokaslr lapic=notscdeadline" --update-kernel /boot/vmlinuz-6.7.12-pvm-host-fedora-hetzner
   - reboot
 
 write_files:
@@ -49,12 +49,12 @@ power_state:
 
 ```shell
 sudo dnf config-manager --add-repo 'https://loopholelabs.github.io/linux-pvm-ci/fedora/hetzner/repodata/linux-pvm-ci.repo'
-sudo dnf install -y kernel-6.7.0_rc6_pvm_host_fedora_hetzner-1.x86_64
+sudo dnf install -y kernel-6.7.12_pvm_host_fedora_hetzner-1.x86_64
 ```
 
 ```shell
-sudo grubby --set-default /boot/vmlinuz-6.7.0-rc6-pvm-host-fedora-hetzner
-sudo grubby --args="pti=off nokaslr lapic=notscdeadline" --update-kernel /boot/vmlinuz-6.7.0-rc6-pvm-host-fedora-hetzner
+sudo grubby --set-default /boot/vmlinuz-6.7.12-pvm-host-fedora-hetzner
+sudo grubby --args="pti=off nokaslr lapic=notscdeadline" --update-kernel /boot/vmlinuz-6.7.12-pvm-host-fedora-hetzner
 ```
 
 ```shell
