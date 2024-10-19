@@ -17,8 +17,11 @@ EOT
 echo "${PGP_KEY}" | base64 -d >'/tmp/private.pgp'
 gpg --import /tmp/private.pgp
 
+# Configure RPM for PGP and multithreaded compression
 echo "%_signature gpg
-%_gpg_name $(echo ${PGP_KEY_ID} | base64 -d)" >"${HOME}/.rpmmacros"
+%_gpg_name $(echo ${PGP_KEY_ID} | base64 -d)
+%_binary_payload    w2T16.xzdio
+%_source_payload    w2T16.xzdio" >"${HOME}/.rpmmacros"
 
 # Configure ccache
 ccache -F 0

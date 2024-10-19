@@ -1,0 +1,29 @@
+From: Rafael Aquini <aquini@redhat.com>
+Subject: https://patchwork.kernel.org/project/linux-kbuild/list/?series=860927
+---
+diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
+index e095eb1e290e..19e458341f45 100644
+--- a/scripts/package/kernel.spec
++++ b/scripts/package/kernel.spec
+@@ -27,7 +27,7 @@  The Linux Kernel, the operating system core itself
+ %package headers
+ Summary: Header files for the Linux kernel for use by glibc
+ Group: Development/System
+-Obsoletes: kernel-headers
++Obsoletes: kernel-headers < %{version}
+ Provides: kernel-headers = %{version}
+ %description headers
+ Kernel-headers includes the C header files that specify the interface
+diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
+index 19e458341f45..126b23c1f6c2 100644
+--- a/scripts/package/kernel.spec
++++ b/scripts/package/kernel.spec
+@@ -132,3 +132,8 @@  fi
+ /usr/src/kernels/%{KERNELRELEASE}
+ /lib/modules/%{KERNELRELEASE}/build
+ %endif
++
++%changelog
++* %(echo "$(LC_ALL=C; date +'%a %b %d %Y') $(git config --get user.name) \
++<$(git config --get user.email)>") - %{version}-%{release}
++- Custom built Linux kernel.
