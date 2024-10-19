@@ -49,7 +49,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
       - name: Push pre-release image to registry
-        if: ${{ github.ref == 'refs/heads/master' }}
+        if: ${{ github.ref == 'refs/heads/main' }}
         uses: docker/build-push-action@v5
         with:
           context: ${{ matrix.target.src }}
@@ -83,159 +83,159 @@ jobs:
         target:
           - id: fedora-baremetal
             src: .
-            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
             cmd: ./Hydrunfile fedora baremetal
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: fedora-hetzner
             src: .
-            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
             cmd: ./Hydrunfile fedora hetzner
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: fedora-digitalocean
             src: .
-            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
             cmd: ./Hydrunfile fedora digitalocean
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: fedora-aws
             src: .
-            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
             cmd: ./Hydrunfile fedora aws
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: fedora-gcp
             src: .
-            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
             cmd: ./Hydrunfile fedora gcp
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: fedora-ovh
             src: .
-            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
             cmd: ./Hydrunfile fedora ovh
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: fedora-linode
             src: .
-            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
             cmd: ./Hydrunfile fedora linode
             dst: out/*
             runner: depot-ubuntu-22.04-32
 
           - id: rocky-baremetal
             src: .
-            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
             cmd: ./Hydrunfile rocky baremetal
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: rocky-hetzner
             src: .
-            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
             cmd: ./Hydrunfile rocky hetzner
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: rocky-digitalocean
             src: .
-            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
             cmd: ./Hydrunfile rocky digitalocean
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: rocky-aws
             src: .
-            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
             cmd: ./Hydrunfile rocky aws
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: rocky-gcp
             src: .
-            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
             cmd: ./Hydrunfile rocky gcp
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: rocky-equinix
             src: .
-            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
             cmd: ./Hydrunfile rocky equinix
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: rocky-ovh
             src: .
-            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
             cmd: ./Hydrunfile rocky ovh
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: rocky-azure
             src: .
-            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
             cmd: ./Hydrunfile rocky azure
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: rocky-civo
             src: .
-            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
             cmd: ./Hydrunfile rocky civo
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: rocky-linode
             src: .
-            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
             cmd: ./Hydrunfile rocky linode
             dst: out/*
             runner: depot-ubuntu-22.04-32
 
           - id: alma-baremetal
             src: .
-            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
             cmd: ./Hydrunfile alma baremetal
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: alma-hetzner
             src: .
-            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
             cmd: ./Hydrunfile alma hetzner
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: alma-digitalocean
             src: .
-            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
             cmd: ./Hydrunfile alma digitalocean
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: alma-aws
             src: .
-            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
             cmd: ./Hydrunfile alma aws
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: alma-gcp
             src: .
-            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
             cmd: ./Hydrunfile alma gcp
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: alma-equinix
             src: .
-            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
             cmd: ./Hydrunfile alma equinix
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: alma-ovh
             src: .
-            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
             cmd: ./Hydrunfile alma ovh
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: alma-azure
             src: .
-            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
             cmd: ./Hydrunfile alma azure
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: alma-linode
             src: .
-            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:master
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
             cmd: ./Hydrunfile alma linode
             dst: out/*
             runner: depot-ubuntu-22.04-32
@@ -277,7 +277,7 @@ jobs:
       pages: write
       id-token: write
     needs: build-kernel
-    if: ${{ github.ref == 'refs/heads/master' }}
+    if: ${{ github.ref == 'refs/heads/main' }}
     environment:
       name: github-pages
       url: ${{ steps.publish.outputs.page_url }}
