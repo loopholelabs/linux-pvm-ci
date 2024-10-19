@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-REPO := https://github.com/virt-pvm/linux.git
+REPO := https://github.com/loopholelabs/linux-pvm.git
 BASEURL := https://loopholelabs.github.io/linux-pvm-ci/
 
 obj = fedora/baremetal fedora/hetzner fedora/digitalocean fedora/aws fedora/gcp fedora/ovh fedora/linode \
@@ -10,7 +10,7 @@ all: $(addprefix build/,$(obj))
 clone:
 	rm -rf work/base/linux
 	mkdir -p work/base/linux
-	git clone --depth 1 --single-branch --branch pvm ${REPO} work/base/linux
+	git clone --depth 1 --single-branch --branch pvm-v6.7 ${REPO} work/base/linux
 
 copy: $(addprefix copy/,$(obj))
 $(addprefix copy/,$(obj)):
@@ -25,7 +25,8 @@ $(addprefix patch/pre/,$(obj)):
 	cd work/$(subst patch/pre/,,$@)/linux && \
 	 	git apply ../../../../patches/add-typedefs.patch && \
 	 	git apply ../../../../patches/fix-installkernel.patch && \
-		git apply ../../../../patches/use-fixed-pvm-range.patch
+		git apply ../../../../patches/use-fixed-pvm-range.patch && \
+	 	git apply ../../../../patches/fix-rpmbuild.patch
 
 patch/fedora/baremetal: patch/pre/fedora/baremetal
 patch/fedora/hetzner: patch/pre/fedora/hetzner
