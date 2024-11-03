@@ -23,7 +23,7 @@ This project builds the Linux kernel as RPM packages for various Linux distros a
 ```yaml
 #cloud-config
 runcmd:
-  - dnf config-manager --add-repo 'https://loopholelabs.github.io/linux-pvm-ci/fedora/hetzner/repodata/linux-pvm-ci.repo'
+  - dnf config-manager --add-repo 'https://loopholelabs.github.io/linux-pvm-ci/fedora/hetzner/repodata/linux-pvm-ci.repo' # Or, if you're on Fedora Linux 41+, use `sudo dnf config-manager addrepo --from-repofile 'https://loopholelabs.github.io/linux-pvm-ci/fedora/baremetal/repodata/linux-pvm-ci.repo'`
   - dnf install -y kernel-6.7.12_pvm_host_fedora_hetzner-1.x86_64
   - grubby --set-default /boot/vmlinuz-6.7.12-pvm-host-fedora-hetzner
   - grubby --copy-default --args="pti=off nokaslr lapic=notscdeadline" --update-kernel /boot/vmlinuz-6.7.12-pvm-host-fedora-hetzner
@@ -49,7 +49,7 @@ power_state:
 ### Manually
 
 ```shell
-sudo dnf config-manager --add-repo 'https://loopholelabs.github.io/linux-pvm-ci/fedora/hetzner/repodata/linux-pvm-ci.repo'
+dnf config-manager --add-repo 'https://loopholelabs.github.io/linux-pvm-ci/fedora/hetzner/repodata/linux-pvm-ci.repo' # Or, if you're on Fedora Linux 41+, use `sudo dnf config-manager addrepo --from-repofile 'https://loopholelabs.github.io/linux-pvm-ci/fedora/baremetal/repodata/linux-pvm-ci.repo'`
 sudo dnf install -y kernel-6.7.12_pvm_host_fedora_hetzner-1.x86_64
 ```
 
