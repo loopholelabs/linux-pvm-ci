@@ -154,12 +154,6 @@ jobs:
             cmd: ./Hydrunfile rocky gcp
             dst: out/*
             runner: depot-ubuntu-22.04-32
-          - id: rocky-equinix
-            src: .
-            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile rocky equinix
-            dst: out/*
-            runner: depot-ubuntu-22.04-32
           - id: rocky-ovh
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
@@ -213,12 +207,6 @@ jobs:
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
             cmd: ./Hydrunfile alma gcp
-            dst: out/*
-            runner: depot-ubuntu-22.04-32
-          - id: alma-equinix
-            src: .
-            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile alma equinix
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: alma-ovh

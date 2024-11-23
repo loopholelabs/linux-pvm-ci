@@ -3,8 +3,8 @@ REPO := https://github.com/loopholelabs/linux-pvm.git
 BASEURL := https://loopholelabs.github.io/linux-pvm-ci/
 
 obj = fedora/baremetal fedora/hetzner fedora/digitalocean fedora/aws fedora/gcp fedora/ovh fedora/linode \
-      rocky/baremetal rocky/hetzner rocky/digitalocean rocky/aws rocky/gcp rocky/equinix rocky/ovh rocky/azure rocky/civo rocky/linode \
-      alma/baremetal alma/hetzner alma/digitalocean alma/aws alma/gcp alma/equinix alma/ovh alma/azure alma/linode
+      rocky/baremetal rocky/hetzner rocky/digitalocean rocky/aws rocky/gcp rocky/ovh rocky/azure rocky/civo rocky/linode \
+      alma/baremetal alma/hetzner alma/digitalocean alma/aws alma/gcp alma/ovh alma/azure alma/linode
 all: $(addprefix build/,$(obj))
 
 clone:
@@ -41,7 +41,6 @@ patch/rocky/hetzner: patch/pre/rocky/hetzner
 patch/rocky/digitalocean: patch/pre/rocky/digitalocean
 patch/rocky/aws: patch/pre/rocky/aws
 patch/rocky/gcp: patch/pre/rocky/gcp
-patch/rocky/equinix: patch/pre/rocky/equinix
 patch/rocky/ovh: patch/pre/rocky/ovh
 patch/rocky/azure: patch/pre/rocky/azure
 patch/rocky/civo: patch/pre/rocky/civo
@@ -52,7 +51,6 @@ patch/alma/hetzner: patch/pre/alma/hetzner
 patch/alma/digitalocean: patch/pre/alma/digitalocean
 patch/alma/aws: patch/pre/alma/aws
 patch/alma/gcp: patch/pre/alma/gcp
-patch/alma/equinix: patch/pre/alma/equinix
 patch/alma/ovh: patch/pre/alma/ovh
 patch/alma/azure: patch/pre/alma/azure
 patch/alma/linode: patch/pre/alma/linode
@@ -88,7 +86,6 @@ configure/rocky/hetzner: configure/pre/rocky/hetzner
 configure/rocky/digitalocean: configure/pre/rocky/digitalocean
 configure/rocky/aws: configure/pre/rocky/aws
 configure/rocky/gcp: configure/pre/rocky/gcp
-configure/rocky/equinix: configure/pre/rocky/equinix
 configure/rocky/ovh: configure/pre/rocky/ovh
 configure/rocky/azure: configure/pre/rocky/azure
 configure/rocky/civo: configure/pre/rocky/civo
@@ -99,7 +96,6 @@ configure/alma/hetzner: configure/pre/alma/hetzner
 configure/alma/digitalocean: configure/pre/alma/digitalocean
 configure/alma/aws: configure/pre/alma/aws
 configure/alma/gcp: configure/pre/alma/gcp
-configure/alma/equinix: configure/pre/alma/equinix
 configure/alma/ovh: configure/pre/alma/ovh
 configure/alma/azure: configure/pre/alma/azure
 configure/alma/linode: configure/pre/alma/linode
@@ -150,9 +146,6 @@ build/rocky/aws: build/pre/rocky/aws
 build/rocky/gcp: build/pre/rocky/gcp
 	cd work/rocky/gcp/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-gcp rpm-pkg
 	$(MAKE) build/post/rocky/gcp
-build/rocky/equinix: build/pre/rocky/equinix
-	cd work/rocky/equinix/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-equinix rpm-pkg
-	$(MAKE) build/post/rocky/equinix
 build/rocky/ovh: build/pre/rocky/ovh
 	cd work/rocky/ovh/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-ovh rpm-pkg
 	$(MAKE) build/post/rocky/ovh
@@ -181,9 +174,6 @@ build/alma/aws: build/pre/alma/aws
 build/alma/gcp: build/pre/alma/gcp
 	cd work/alma/gcp/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-gcp rpm-pkg
 	$(MAKE) build/post/alma/gcp
-build/alma/equinix: build/pre/alma/equinix
-	cd work/alma/equinix/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-equinix rpm-pkg
-	$(MAKE) build/post/alma/equinix
 build/alma/ovh: build/pre/alma/ovh
 	cd work/alma/ovh/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-ovh rpm-pkg
 	$(MAKE) build/post/alma/ovh
@@ -220,7 +210,6 @@ package/rocky/hetzner: package/pre/rocky/hetzner
 package/rocky/digitalocean: package/pre/rocky/digitalocean
 package/rocky/aws: package/pre/rocky/aws
 package/rocky/gcp: package/pre/rocky/gcp
-package/rocky/equinix: package/pre/rocky/equinix
 package/rocky/ovh: package/pre/rocky/ovh
 package/rocky/azure: package/pre/rocky/azure
 package/rocky/civo: package/pre/rocky/civo
@@ -231,7 +220,6 @@ package/alma/hetzner: package/pre/alma/hetzner
 package/alma/digitalocean: package/pre/alma/digitalocean
 package/alma/aws: package/pre/alma/aws
 package/alma/gcp: package/pre/alma/gcp
-package/alma/equinix: package/pre/alma/equinix
 package/alma/ovh: package/pre/alma/ovh
 package/alma/azure: package/pre/alma/azure
 package/alma/linode: package/pre/alma/linode
