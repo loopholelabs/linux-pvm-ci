@@ -26,7 +26,8 @@ $(addprefix patch/pre/,$(obj)):
 	 	git apply ../../../../patches/add-typedefs.patch && \
 	 	git apply ../../../../patches/fix-installkernel.patch && \
 		git apply ../../../../patches/use-fixed-pvm-range.patch && \
-	 	git apply ../../../../patches/fix-rpmbuild.patch
+	 	git apply ../../../../patches/fix-rpmbuild.patch && \
+	 	git apply ../../../../patches/fix-signing.patch
 
 patch/fedora/baremetal: patch/pre/fedora/baremetal
 patch/fedora/hetzner: patch/pre/fedora/hetzner
