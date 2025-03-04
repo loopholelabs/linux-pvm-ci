@@ -27,7 +27,7 @@ This project builds the Linux kernel as RPM packages for various Linux distros a
 runcmd:
   - dnf config-manager --add-repo 'https://loopholelabs.github.io/linux-pvm-ci/fedora/hetzner/repodata/linux-pvm-ci.repo' # Or, if you're on Fedora Linux 41+, use `sudo dnf config-manager addrepo --from-repofile 'https://loopholelabs.github.io/linux-pvm-ci/fedora/baremetal/repodata/linux-pvm-ci.repo'`
   - dnf install -y kernel-6.7.12_pvm_host_fedora_hetzner-1.x86_64
-  # Add `- grubby --copy-default --add-kernel=/boot/vmlinuz-6.7.12-pvm-host-amazonlinux-aws --initrd=/boot/initramfs-6.7.12-pvm-host-amazonlinux-aws.img` here on Amazon Linux, otherwise it will fail with `The param /boot/vmlinuz-6.7.12-pvm-host-amazonlinux-aws is incorrect`
+  # Add `- grubby --copy-default --add-kernel=/boot/vmlinuz-6.7.12-pvm-host-amazonlinux-aws --initrd=/boot/initramfs-6.7.12-pvm-host-amazonlinux-aws.img --title="Amazon Linux (6.7.12-pvm-host-amazonlinux-aws)" ` here on Amazon Linux, otherwise it will fail with `The param /boot/vmlinuz-6.7.12-pvm-host-amazonlinux-aws is incorrect`
   - grubby --set-default /boot/vmlinuz-6.7.12-pvm-host-fedora-hetzner
   - grubby --copy-default --args="pti=off nokaslr lapic=notscdeadline" --update-kernel /boot/vmlinuz-6.7.12-pvm-host-fedora-hetzner
   - dracut --force --kver 6.7.12-pvm-host-fedora-hetzner # Append `--no-kernel` on Amazon Linux, otherwise it will fail with `dracut-install: Failed to find module 'xfs'`
@@ -57,7 +57,7 @@ sudo dnf install -y kernel-6.7.12_pvm_host_fedora_hetzner-1.x86_64
 ```
 
 ```shell
-# Run `sudo grubby --copy-default --add-kernel=/boot/vmlinuz-6.7.12-pvm-host-amazonlinux-aws --initrd=/boot/initramfs-6.7.12-pvm-host-amazonlinux-aws.img` first on Amazon Linux, otherwise it will fail with `The param /boot/vmlinuz-6.7.12-pvm-host-amazonlinux-aws is incorrect`
+# Run `sudo grubby --copy-default --add-kernel=/boot/vmlinuz-6.7.12-pvm-host-amazonlinux-aws --initrd=/boot/initramfs-6.7.12-pvm-host-amazonlinux-aws.img --title="Amazon Linux (6.7.12-pvm-host-amazonlinux-aws)" ` first on Amazon Linux, otherwise it will fail with `The param /boot/vmlinuz-6.7.12-pvm-host-amazonlinux-aws is incorrect`
 sudo grubby --set-default /boot/vmlinuz-6.7.12-pvm-host-fedora-hetzner
 sudo grubby --copy-default --args="pti=off nokaslr lapic=notscdeadline" --update-kernel /boot/vmlinuz-6.7.12-pvm-host-fedora-hetzner
 sudo dracut --force --kver 6.7.12-pvm-host-fedora-hetzner # Append `--no-kernel` on Amazon Linux, otherwise it will fail with `dracut-install: Failed to find module 'xfs'`
