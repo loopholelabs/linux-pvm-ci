@@ -4,7 +4,8 @@ BASEURL := https://loopholelabs.github.io/linux-pvm-ci/
 
 obj = fedora/baremetal fedora/hetzner fedora/digitalocean fedora/aws fedora/gcp fedora/ovh fedora/linode \
       rocky/baremetal rocky/hetzner rocky/digitalocean rocky/aws rocky/gcp rocky/ovh rocky/azure rocky/civo rocky/linode \
-      alma/baremetal alma/hetzner alma/digitalocean alma/aws alma/gcp alma/ovh alma/azure alma/linode
+      alma/baremetal alma/hetzner alma/digitalocean alma/aws alma/gcp alma/ovh alma/azure alma/linode \
+	  amazonlinux/aws
 all: $(addprefix build/,$(obj))
 
 clone:
@@ -56,6 +57,8 @@ patch/alma/ovh: patch/pre/alma/ovh
 patch/alma/azure: patch/pre/alma/azure
 patch/alma/linode: patch/pre/alma/linode
 
+patch/amazonlinux/aws: patch/pre/amazonlinux/aws
+
 configure: $(addprefix configure/,$(obj))
 # KVM_PVM: To enable PVM
 # ADDRESS_MASKING: To prevent https://lore.kernel.org/all/CAHk-=wiOJOOyWvZOUsKppD068H3D=5dzQOJv5j2DU4rDPsJBBg@mail.gmail.com/T/
@@ -100,6 +103,8 @@ configure/alma/gcp: configure/pre/alma/gcp
 configure/alma/ovh: configure/pre/alma/ovh
 configure/alma/azure: configure/pre/alma/azure
 configure/alma/linode: configure/pre/alma/linode
+
+configure/amazonlinux/aws: configure/pre/amazonlinux/aws
 
 build: $(addprefix build/,$(obj))
 $(addprefix build/pre/,$(obj)):
@@ -185,6 +190,10 @@ build/alma/linode: build/pre/alma/linode
 	cd work/alma/linode/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-linode rpm-pkg
 	$(MAKE) build/post/alma/linode
 
+build/amazonlinux/aws: build/pre/amazonlinux/aws
+	cd work/amazonlinux/aws/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-linode rpm-pkg
+	$(MAKE) build/post/amazonlinux/aws
+
 package: $(addprefix package/,$(obj))
 $(addprefix package/pre/,$(obj)):
 	rpm --addsign out/$(subst package/pre/,,$@)/*.rpm
@@ -224,6 +233,8 @@ package/alma/gcp: package/pre/alma/gcp
 package/alma/ovh: package/pre/alma/ovh
 package/alma/azure: package/pre/alma/azure
 package/alma/linode: package/pre/alma/linode
+
+package/amazonlinux/aws: package/pre/amazonlinux/aws
 
 clean: $(addprefix clean/,$(obj))
 	rm -rf work/base out
