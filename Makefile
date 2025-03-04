@@ -191,7 +191,7 @@ build/alma/linode: build/pre/alma/linode
 	$(MAKE) build/post/alma/linode
 
 build/amazonlinux/aws: build/pre/amazonlinux/aws
-	cd work/amazonlinux/aws/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-linode rpm-pkg
+	cd work/amazonlinux/aws/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-amazonlinux-aws rpm-pkg
 	$(MAKE) build/post/amazonlinux/aws
 
 package: $(addprefix package/,$(obj))
