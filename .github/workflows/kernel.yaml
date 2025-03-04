@@ -227,6 +227,13 @@ jobs:
             cmd: ./Hydrunfile alma linode
             dst: out/*
             runner: depot-ubuntu-22.04-32
+          
+          - id: amazonlinux-aws
+            src: .
+            os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
+            cmd: ./Hydrunfile amazonlinux aws
+            dst: out/*
+            runner: depot-ubuntu-22.04-32
 
     steps:
       - name: Checkout
