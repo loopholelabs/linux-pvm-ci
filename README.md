@@ -14,7 +14,7 @@ This project builds the Linux kernel as RPM packages for various Linux distros a
 
 ## Installation
 
-> Replace all occurrences of `fedora` to your distribution of choice (valid values are: `fedora`, `rocky`, `alma`, `amazonlinux`) and `hetzner` to your cloud provider of choice (valid values are: `baremetal`, `hetzner`, `digitalocean`, `aws`, `gcp`, `ovh`, `azure`, `civo`, `linode`)
+> Replace all occurrences of `fedora` to your distribution of choice (valid values are: `fedora`, `rocky`, `alma`, `amazonlinux`) and `hetzner` to your cloud provider of choice (valid values are: `baremetal`, `hetzner`, `digitalocean`, `aws`, `gcp`, `ovh`, `azure`, `civo`, `linode`). Note that Amazon Linux is only supported on some AWS instance types (e.g. `t2.micro`) and known to fail to boot on others (`c6a.xlarge`).
 
 > Note that saving and restoring a snapshot between 4-level paging mode hosts (such as older AWS machine models) and 5-level paging mode hosts (such as newer GCP machine models) is not possible at this time (see [https://github.com/virt-pvm/linux/issues/6#issuecomment-2076990347](https://github.com/virt-pvm/linux/issues/6#issuecomment-2076990347))
 
@@ -26,10 +26,11 @@ This project builds the Linux kernel as RPM packages for various Linux distros a
 #cloud-config
 runcmd:
   - dnf config-manager --add-repo 'https://loopholelabs.github.io/linux-pvm-ci/fedora/hetzner/repodata/linux-pvm-ci.repo' # Or, if you're on Fedora Linux 41+, use `sudo dnf config-manager addrepo --from-repofile 'https://loopholelabs.github.io/linux-pvm-ci/fedora/baremetal/repodata/linux-pvm-ci.repo'`
-  - dnf install -y kernel-6.7.12_pvm_host_fedora_hetzner-1.x86_64
+  - dnf install -y kernel-6.7.12_pvm_host_fedora_hetzner-1.x86_64 # You might also want to install kernel-devel-6.7.12_pvm_host_fedora_hetzner-1.x86_64.rpm and kernel-headers-6.7.12_pvm_host_fedora_hetzner-1.x86_64.rpm if you want to build a module against the kernel
+  # Add `- grubby --copy-default --add-kernel=/boot/vmlinuz-6.7.12-pvm-host-amazonlinux-aws --initrd=/boot/initramfs-6.7.12-pvm-host-amazonlinux-aws.img --title="Amazon Linux (6.7.12-pvm-host-amazonlinux-aws)" ` here on Amazon Linux, otherwise it will fail with `The param /boot/vmlinuz-6.7.12-pvm-host-amazonlinux-aws is incorrect`
   - grubby --set-default /boot/vmlinuz-6.7.12-pvm-host-fedora-hetzner
   - grubby --copy-default --args="pti=off nokaslr lapic=notscdeadline" --update-kernel /boot/vmlinuz-6.7.12-pvm-host-fedora-hetzner
-  - dracut --force --kver 6.7.12-pvm-host-fedora-hetzner
+  - dracut --force --kver 6.7.12-pvm-host-fedora-hetzner # Append `--no-kernel` on Amazon Linux, otherwise it will fail with `dracut-install: Failed to find module 'xfs'`
   - reboot
 
 write_files:
@@ -52,13 +53,14 @@ power_state:
 
 ```shell
 dnf config-manager --add-repo 'https://loopholelabs.github.io/linux-pvm-ci/fedora/hetzner/repodata/linux-pvm-ci.repo' # Or, if you're on Fedora Linux 41+, use `sudo dnf config-manager addrepo --from-repofile 'https://loopholelabs.github.io/linux-pvm-ci/fedora/baremetal/repodata/linux-pvm-ci.repo'`
-sudo dnf install -y kernel-6.7.12_pvm_host_fedora_hetzner-1.x86_64
+sudo dnf install -y kernel-6.7.12_pvm_host_fedora_hetzner-1.x86_64.rpm # You might also want to install kernel-devel-6.7.12_pvm_host_fedora_hetzner-1.x86_64.rpm and kernel-headers-6.7.12_pvm_host_fedora_hetzner-1.x86_64.rpm if you want to build a module against the kernel
 ```
 
 ```shell
+# Run `sudo grubby --copy-default --add-kernel=/boot/vmlinuz-6.7.12-pvm-host-amazonlinux-aws --initrd=/boot/initramfs-6.7.12-pvm-host-amazonlinux-aws.img --title="Amazon Linux (6.7.12-pvm-host-amazonlinux-aws)" ` first on Amazon Linux, otherwise it will fail with `The param /boot/vmlinuz-6.7.12-pvm-host-amazonlinux-aws is incorrect`
 sudo grubby --set-default /boot/vmlinuz-6.7.12-pvm-host-fedora-hetzner
 sudo grubby --copy-default --args="pti=off nokaslr lapic=notscdeadline" --update-kernel /boot/vmlinuz-6.7.12-pvm-host-fedora-hetzner
-sudo dracut --force --kver 6.7.12-pvm-host-fedora-hetzner
+sudo dracut --force --kver 6.7.12-pvm-host-fedora-hetzner # Append `--no-kernel` on Amazon Linux, otherwise it will fail with `dracut-install: Failed to find module 'xfs'`
 ```
 
 ```shell
