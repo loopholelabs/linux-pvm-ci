@@ -26,7 +26,7 @@ This project builds the Linux kernel as RPM packages for various Linux distros a
 #cloud-config
 runcmd:
   - dnf config-manager --add-repo 'https://loopholelabs.github.io/linux-pvm-ci/fedora/hetzner/repodata/linux-pvm-ci.repo' # Or, if you're on Fedora Linux 41+, use `sudo dnf config-manager addrepo --from-repofile 'https://loopholelabs.github.io/linux-pvm-ci/fedora/baremetal/repodata/linux-pvm-ci.repo'`
-  - dnf install -y kernel-6.7.12_pvm_host_fedora_hetzner-1.x86_64
+  - dnf install -y kernel-6.7.12_pvm_host_fedora_hetzner-1.x86_64 # You might also want to install kernel-devel-6.7.12_pvm_host_fedora_hetzner-1.x86_64.rpm and kernel-headers-6.7.12_pvm_host_fedora_hetzner-1.x86_64.rpm if you want to build a module against the kernel
   # Add `- grubby --copy-default --add-kernel=/boot/vmlinuz-6.7.12-pvm-host-amazonlinux-aws --initrd=/boot/initramfs-6.7.12-pvm-host-amazonlinux-aws.img --title="Amazon Linux (6.7.12-pvm-host-amazonlinux-aws)" ` here on Amazon Linux, otherwise it will fail with `The param /boot/vmlinuz-6.7.12-pvm-host-amazonlinux-aws is incorrect`
   - grubby --set-default /boot/vmlinuz-6.7.12-pvm-host-fedora-hetzner
   - grubby --copy-default --args="pti=off nokaslr lapic=notscdeadline" --update-kernel /boot/vmlinuz-6.7.12-pvm-host-fedora-hetzner
@@ -53,7 +53,7 @@ power_state:
 
 ```shell
 dnf config-manager --add-repo 'https://loopholelabs.github.io/linux-pvm-ci/fedora/hetzner/repodata/linux-pvm-ci.repo' # Or, if you're on Fedora Linux 41+, use `sudo dnf config-manager addrepo --from-repofile 'https://loopholelabs.github.io/linux-pvm-ci/fedora/baremetal/repodata/linux-pvm-ci.repo'`
-sudo dnf install -y kernel-6.7.12_pvm_host_fedora_hetzner-1.x86_64
+sudo dnf install -y kernel-6.7.12_pvm_host_fedora_hetzner-1.x86_64.rpm # You might also want to install kernel-devel-6.7.12_pvm_host_fedora_hetzner-1.x86_64.rpm and kernel-headers-6.7.12_pvm_host_fedora_hetzner-1.x86_64.rpm if you want to build a module against the kernel
 ```
 
 ```shell
