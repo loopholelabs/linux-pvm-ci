@@ -11,7 +11,7 @@ all: $(addprefix build/,$(obj))
 clone:
 	rm -rf work/base/linux
 	mkdir -p work/base/linux
-	git clone --depth 1 --single-branch --branch pvm-v6.7-experimental ${REPO} work/base/linux
+	git clone --depth 1 --single-branch --branch pvm-v6.7 ${REPO} work/base/linux
 
 copy: $(addprefix copy/,$(obj))
 $(addprefix copy/,$(obj)):
