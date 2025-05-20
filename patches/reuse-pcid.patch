@@ -1,0 +1,111 @@
+From: Shivansh Vij <shivanshvij@loopholelabs.io>
+Subject: feat: implement pcid reuse
+---
+diff --git a/arch/x86/kvm/pvm/pvm.c b/arch/x86/kvm/pvm/pvm.c
+index 138fed04f..57f9872dd 100644
+--- a/arch/x86/kvm/pvm/pvm.c
++++ b/arch/x86/kvm/pvm/pvm.c
+@@ -175,6 +175,23 @@ static bool pvm_disallowed_va(struct kvm_vcpu *vcpu, u64 va)
+ 	return !pvm_guest_allowed_va(vcpu, va);
+ }
+ 
++static inline bool pvm_spte_present(struct kvm_vcpu *vcpu, gva_t gva)
++{
++	struct kvm_shadow_walk_iterator it;
++
++	rcu_read_lock();
++	kvm_shadow_walk_init(&it, vcpu->arch.mmu->root.hpa, gva);
++	for_each_shadow_entry(&it) {
++		if (!is_shadow_present_pte(*it.sptep)) {
++			rcu_read_unlock();
++			return false;
++		}
++	}
++	rcu_read_unlock();
++
++	return true;
++}
++
+ static void __set_cpuid_faulting(bool on)
+ {
+ 	u64 msrval;
+@@ -592,7 +609,37 @@ static inline int index_to_host_pcid(int index)
+  */
+ static int host_pcid_free_uncached(struct vcpu_pvm *pvm)
+ {
+-	/* It is allowed to do nothing. */
++	struct host_pcid_state *tlb_state = this_cpu_ptr(&pvm_tlb_state);
++	int i, least_recently_used = -1;
++	u64 least_recently_used_hpa = 0;
++
++	/* Find PCIDs associated with this pvm that aren't in active use */
++	for (i = 0; i < NUM_HOST_PCID_FOR_GUEST; i++) {
++		struct host_pcid_one *tlb = &tlb_state->pairs[i];
++		if (tlb->pvm == pvm) {
++			/* Check if root is not current or in previous roots */
++			if (tlb->root_hpa != pvm->vcpu.arch.mmu->root.hpa && tlb->root_hpa != pvm->vcpu.arch.mmu->prev_roots[0].hpa) {
++				/* This is an uncached entry we can reclaim */
++				tlb->pvm = NULL;
++				return i;
++			}
++
++			/* Track least recently used as fallback */
++			if (least_recently_used == -1 || tlb->root_hpa < least_recently_used_hpa) {
++				least_recently_used = i;
++				least_recently_used_hpa = tlb->root_hpa;
++			}
++		}
++	}
++
++	/* Fallback: reuse the least-recently-used slot we tracked above. */
++	if (least_recently_used != -1) {
++		tlb_state->pairs[least_recently_used].pvm = NULL;
++		tlb_state->pairs[least_recently_used].root_hpa = 0;
++		return least_recently_used;
++	}
++
++	/* Nothing available – tell caller to evict round-robin. */
+ 	return -1;
+ }
+ 
+@@ -621,6 +668,8 @@ static int host_pcid_get(struct vcpu_pvm *pvm, u64 root_hpa, bool *flush)
+ 	struct host_pcid_state *tlb_state = this_cpu_ptr(&pvm_tlb_state);
+ 	int i, j = -1;
+ 
++	*flush = false;
++
+ 	/* find if it is allocated. */
+ 	for (i = 0; i < NUM_HOST_PCID_FOR_GUEST; i++) {
+ 		struct host_pcid_one *tlb = &tlb_state->pairs[i];
+@@ -647,11 +696,20 @@ static int host_pcid_get(struct vcpu_pvm *pvm, u64 root_hpa, bool *flush)
+ 			tlb_state->evict_next_round_robin = 0;
+ 	}
+ 
++	/*
++	 * If the slot was genuinely free (either it had never been used, or
++	 * host_pcid_free_uncached() just reclaimed it and nulled ->pvm), then
++	 * nothing in the TLB can still reference the old mapping – no flush is
++	 * required.  Otherwise we are evicting a live slot and must broadcast a
++	 * flush.
++	 */
++	bool need_flush = tlb_state->pairs[j].pvm != NULL;
++
+ 	/* associate the host pcid to the guest */
+ 	tlb_state->pairs[j].pvm = pvm;
+ 	tlb_state->pairs[j].root_hpa = root_hpa;
+ 
+-	*flush = true;
++	*flush = need_flush;
+ 	return index_to_host_pcid(j);
+ }
+ 
+@@ -727,6 +785,9 @@ static void pvm_flush_hwtlb_gva(struct kvm_vcpu *vcpu, gva_t addr)
+ 	int max = MIN_HOST_PCID_FOR_GUEST + NUM_HOST_PCID_FOR_GUEST;
+ 	int i;
+ 
++	if (!pvm_spte_present(vcpu, addr))
++		return;
++
+ 	if (!static_cpu_has(X86_FEATURE_PCID))
+ 		return;
+ 
