@@ -2,7 +2,7 @@ From: Shivansh Vij <shivanshvij@loopholelabs.io>
 Subject: feat: implement pcid reuse
 ---
 diff --git a/arch/x86/kvm/pvm/pvm.c b/arch/x86/kvm/pvm/pvm.c
-index 138fed04f..57f9872dd 100644
+index 138fed04f..c16c78c42 100644
 --- a/arch/x86/kvm/pvm/pvm.c
 +++ b/arch/x86/kvm/pvm/pvm.c
 @@ -175,6 +175,23 @@ static bool pvm_disallowed_va(struct kvm_vcpu *vcpu, u64 va)
@@ -77,7 +77,7 @@ index 138fed04f..57f9872dd 100644
  	/* find if it is allocated. */
  	for (i = 0; i < NUM_HOST_PCID_FOR_GUEST; i++) {
  		struct host_pcid_one *tlb = &tlb_state->pairs[i];
-@@ -647,11 +696,20 @@ static int host_pcid_get(struct vcpu_pvm *pvm, u64 root_hpa, bool *flush)
+@@ -647,11 +696,19 @@ static int host_pcid_get(struct vcpu_pvm *pvm, u64 root_hpa, bool *flush)
  			tlb_state->evict_next_round_robin = 0;
  	}
  
@@ -88,18 +88,17 @@ index 138fed04f..57f9872dd 100644
 +	 * required.  Otherwise we are evicting a live slot and must broadcast a
 +	 * flush.
 +	 */
-+	bool need_flush = tlb_state->pairs[j].pvm != NULL;
++	*flush = tlb_state->pairs[j].pvm != NULL;
 +
  	/* associate the host pcid to the guest */
  	tlb_state->pairs[j].pvm = pvm;
  	tlb_state->pairs[j].root_hpa = root_hpa;
  
 -	*flush = true;
-+	*flush = need_flush;
  	return index_to_host_pcid(j);
  }
  
-@@ -727,6 +785,9 @@ static void pvm_flush_hwtlb_gva(struct kvm_vcpu *vcpu, gva_t addr)
+@@ -727,6 +784,9 @@ static void pvm_flush_hwtlb_gva(struct kvm_vcpu *vcpu, gva_t addr)
  	int max = MIN_HOST_PCID_FOR_GUEST + NUM_HOST_PCID_FOR_GUEST;
  	int i;
  
