@@ -1,6 +1,7 @@
 SHELL := /bin/bash
 REPO := https://github.com/loopholelabs/linux-pvm.git
 BASEURL := https://loopholelabs.github.io/linux-pvm-ci/
+BRANCH := pvm-v6.7
 
 obj = fedora/baremetal fedora/hetzner fedora/digitalocean fedora/aws fedora/gcp fedora/ovh fedora/linode \
       rocky/baremetal rocky/hetzner rocky/digitalocean rocky/aws rocky/gcp rocky/ovh rocky/azure rocky/civo rocky/linode \
@@ -11,7 +12,7 @@ all: $(addprefix build/,$(obj))
 clone:
 	rm -rf work/base/linux
 	mkdir -p work/base/linux
-	git clone --depth 1 --single-branch --branch pvm-v6.7 ${REPO} work/base/linux
+	git clone --depth 1 --single-branch --branch ${BRANCH} ${REPO} work/base/linux
 
 copy: $(addprefix copy/,$(obj))
 $(addprefix copy/,$(obj)):
@@ -19,45 +20,6 @@ $(addprefix copy/,$(obj)):
 	rm -rf work/$(subst copy/,,$@)
 	mkdir -p work/$(subst copy/,,$@)
 	cp -r work/base/linux work/$(subst copy/,,$@)/linux
-
-
-patch: $(addprefix patch/,$(obj))
-$(addprefix patch/pre/,$(obj)):
-	cd work/$(subst patch/pre/,,$@)/linux && \
-	 	git apply ../../../../patches/add-typedefs.patch && \
-	 	git apply ../../../../patches/fix-installkernel.patch && \
-		git apply ../../../../patches/use-fixed-pvm-range.patch && \
-	 	git apply ../../../../patches/fix-rpmbuild.patch && \
-	 	git apply ../../../../patches/fix-signing.patch
-
-patch/fedora/baremetal: patch/pre/fedora/baremetal
-patch/fedora/hetzner: patch/pre/fedora/hetzner
-patch/fedora/digitalocean: patch/pre/fedora/digitalocean
-patch/fedora/aws: patch/pre/fedora/aws
-patch/fedora/gcp: patch/pre/fedora/gcp
-patch/fedora/ovh: patch/pre/fedora/ovh
-patch/fedora/linode: patch/pre/fedora/linode
-
-patch/rocky/baremetal: patch/pre/rocky/baremetal
-patch/rocky/hetzner: patch/pre/rocky/hetzner
-patch/rocky/digitalocean: patch/pre/rocky/digitalocean
-patch/rocky/aws: patch/pre/rocky/aws
-patch/rocky/gcp: patch/pre/rocky/gcp
-patch/rocky/ovh: patch/pre/rocky/ovh
-patch/rocky/azure: patch/pre/rocky/azure
-patch/rocky/civo: patch/pre/rocky/civo
-patch/rocky/linode: patch/pre/rocky/linode
-
-patch/alma/baremetal: patch/pre/alma/baremetal
-patch/alma/hetzner: patch/pre/alma/hetzner
-patch/alma/digitalocean: patch/pre/alma/digitalocean
-patch/alma/aws: patch/pre/alma/aws
-patch/alma/gcp: patch/pre/alma/gcp
-patch/alma/ovh: patch/pre/alma/ovh
-patch/alma/azure: patch/pre/alma/azure
-patch/alma/linode: patch/pre/alma/linode
-
-patch/amazonlinux/aws: patch/pre/amazonlinux/aws
 
 configure: $(addprefix configure/,$(obj))
 # KVM_PVM: To enable PVM
