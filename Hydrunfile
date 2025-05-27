@@ -31,7 +31,7 @@ ccache -M 0
 ccache -s
 
 # Get kernel source
-make clone
+make clone BRANCH="${3}"
 
 # Patch and configure kernel
 make "copy/${1}/${2}"

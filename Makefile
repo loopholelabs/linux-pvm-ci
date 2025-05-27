@@ -6,7 +6,11 @@ BRANCH := pvm-v6.7
 obj = fedora/baremetal fedora/hetzner fedora/digitalocean fedora/aws fedora/gcp fedora/ovh fedora/linode \
       rocky/baremetal rocky/hetzner rocky/digitalocean rocky/aws rocky/gcp rocky/ovh rocky/azure rocky/civo rocky/linode \
       alma/baremetal alma/hetzner alma/digitalocean alma/aws alma/gcp alma/ovh alma/azure alma/linode \
-	  amazonlinux/aws
+	  amazonlinux/aws \
+	  fedora-experimental/baremetal fedora-experimental/hetzner fedora-experimental/digitalocean fedora-experimental/aws fedora/gcp fedora/ovh fedora/linode \
+      rocky-experimental/baremetal rocky-experimental/hetzner rocky-experimental/digitalocean rocky-experimental/aws rocky-experimental/gcp rocky-experimental/ovh rocky-experimental/azure rocky-experimental/civo rocky-experimental/linode \
+      alma-experimental/baremetal alma-experimental/hetzner alma-experimental/digitalocean alma-experimental/aws alma-experimental/gcp alma-experimental/ovh alma-experimental/azure alma-experimental/linode \
+      amazonlinux-experimental/aws
 all: $(addprefix build/,$(obj))
 
 clone:
@@ -59,6 +63,35 @@ patch/alma/linode: patch/pre/alma/linode
 
 patch/amazonlinux/aws: patch/pre/amazonlinux/aws
 
+patch/fedora-experimental/baremetal: patch/pre/fedora-experimental/baremetal
+patch/fedora-experimental/hetzner: patch/pre/fedora-experimental/hetzner
+patch/fedora-experimental/digitalocean: patch/pre/fedora-experimental/digitalocean
+patch/fedora-experimental/aws: patch/pre/fedora-experimental/aws
+patch/fedora-experimental/gcp: patch/pre/fedora-experimental/gcp
+patch/fedora-experimental/ovh: patch/pre/fedora-experimental/ovh
+patch/fedora-experimental/linode: patch/pre/fedora-experimental/linode
+
+patch/rocky-experimental/baremetal: patch/pre/rocky-experimental/baremetal
+patch/rocky-experimental/hetzner: patch/pre/rocky-experimental/hetzner
+patch/rocky-experimental/digitalocean: patch/pre/rocky-experimental/digitalocean
+patch/rocky-experimental/aws: patch/pre/rocky-experimental/aws
+patch/rocky-experimental/gcp: patch/pre/rocky-experimental/gcp
+patch/rocky-experimental/ovh: patch/pre/rocky-experimental/ovh
+patch/rocky-experimental/azure: patch/pre/rocky-experimental/azure
+patch/rocky-experimental/civo: patch/pre/rocky-experimental/civo
+patch/rocky-experimental/linode: patch/pre/rocky-experimental/linode
+
+patch/alma-experimental/baremetal: patch/pre/alma-experimental/baremetal
+patch/alma-experimental/hetzner: patch/pre/alma-experimental/hetzner
+patch/alma-experimental/digitalocean: patch/pre/alma-experimental/digitalocean
+patch/alma-experimental/aws: patch/pre/alma-experimental/aws
+patch/alma-experimental/gcp: patch/pre/alma-experimental/gcp
+patch/alma-experimental/ovh: patch/pre/alma-experimental/ovh
+patch/alma-experimental/azure: patch/pre/alma-experimental/azure
+patch/alma-experimental/linode: patch/pre/alma-experimental/linode
+
+patch/amazonlinux-experimental/aws: patch/pre/amazonlinux-experimental/aws
+
 configure: $(addprefix configure/,$(obj))
 # KVM_PVM: To enable PVM
 # ADDRESS_MASKING: To prevent https://lore.kernel.org/all/CAHk-=wiOJOOyWvZOUsKppD068H3D=5dzQOJv5j2DU4rDPsJBBg@mail.gmail.com/T/
@@ -105,6 +138,35 @@ configure/alma/azure: configure/pre/alma/azure
 configure/alma/linode: configure/pre/alma/linode
 
 configure/amazonlinux/aws: configure/pre/amazonlinux/aws
+
+configure/fedora-experimental/baremetal: configure/pre/fedora-experimental/baremetal
+configure/fedora-experimental/hetzner: configure/pre/fedora-experimental/hetzner
+configure/fedora-experimental/digitalocean: configure/pre/fedora-experimental/digitalocean
+configure/fedora-experimental/aws: configure/pre/fedora-experimental/aws
+configure/fedora-experimental/gcp: configure/pre/fedora-experimental/gcp
+configure/fedora-experimental/ovh: configure/pre/fedora-experimental/ovh
+configure/fedora-experimental/linode: configure/pre/fedora-experimental/linode
+
+configure/rocky-experimental/baremetal: configure/pre/rocky-experimental/baremetal
+configure/rocky-experimental/hetzner: configure/pre/rocky-experimental/hetzner
+configure/rocky-experimental/digitalocean: configure/pre/rocky-experimental/digitalocean
+configure/rocky-experimental/aws: configure/pre/rocky-experimental/aws
+configure/rocky-experimental/gcp: configure/pre/rocky-experimental/gcp
+configure/rocky-experimental/ovh: configure/pre/rocky-experimental/ovh
+configure/rocky-experimental/azure: configure/pre/rocky-experimental/azure
+configure/rocky-experimental/civo: configure/pre/rocky-experimental/civo
+configure/rocky-experimental/linode: configure/pre/rocky-experimental/linode
+
+configure/alma-experimental/baremetal: configure/pre/alma-experimental/baremetal
+configure/alma-experimental/hetzner: configure/pre/alma-experimental/hetzner
+configure/alma-experimental/digitalocean: configure/pre/alma-experimental/digitalocean
+configure/alma-experimental/aws: configure/pre/alma-experimental/aws
+configure/alma-experimental/gcp: configure/pre/alma-experimental/gcp
+configure/alma-experimental/ovh: configure/pre/alma-experimental/ovh
+configure/alma-experimental/azure: configure/pre/alma-experimental/azure
+configure/alma-experimental/linode: configure/pre/alma-experimental/linode
+
+configure/amazonlinux-experimental/aws: configure/pre/amazonlinux-experimental/aws
 
 build: $(addprefix build/,$(obj))
 $(addprefix build/pre/,$(obj)):
@@ -194,6 +256,85 @@ build/amazonlinux/aws: build/pre/amazonlinux/aws
 	cd work/amazonlinux/aws/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-amazonlinux-aws rpm-pkg
 	$(MAKE) build/post/amazonlinux/aws
 
+build/fedora-experimental/baremetal: build/pre/fedora-experimental/baremetal
+	cd work/fedora-experimental/baremetal/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-fedora-experimental-baremetal rpm-pkg
+	$(MAKE) build/post/fedora-experimental/baremetal
+build/fedora-experimental/hetzner: build/pre/fedora-experimental/hetzner
+	cd work/fedora-experimental/hetzner/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-fedora-experimental-hetzner rpm-pkg
+	$(MAKE) build/post/fedora-experimental/hetzner
+build/fedora-experimental/digitalocean: build/pre/fedora-experimental/digitalocean
+	cd work/fedora-experimental/digitalocean/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-fedora-experimental-digitalocean rpm-pkg
+	$(MAKE) build/post/fedora-experimental/digitalocean
+build/fedora-experimental/aws: build/pre/fedora-experimental/aws
+	cd work/fedora-experimental/aws/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-fedora-experimental-aws rpm-pkg
+	$(MAKE) build/post/fedora-experimental/aws
+build/fedora-experimental/gcp: build/pre/fedora-experimental/gcp
+	cd work/fedora-experimental/gcp/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-fedora-experimental-gcp rpm-pkg
+	$(MAKE) build/post/fedora-experimental/gcp
+build/fedora-experimental/ovh: build/pre/fedora-experimental/ovh
+	cd work/fedora-experimental/ovh/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-fedora-experimental-ovh rpm-pkg
+	$(MAKE) build/post/fedora-experimental/ovh
+build/fedora-experimental/linode: build/pre/fedora-experimental/linode
+	cd work/fedora-experimental/linode/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-fedora-experimental-linode rpm-pkg
+	$(MAKE) build/post/fedora-experimental/linode
+
+build/rocky-experimental/baremetal: build/pre/rocky-experimental/baremetal
+	cd work/rocky-experimental/baremetal/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-experimental-baremetal rpm-pkg
+	$(MAKE) build/post/rocky-experimental/baremetal
+build/rocky-experimental/hetzner: build/pre/rocky-experimental/hetzner
+	cd work/rocky-experimental/hetzner/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-experimental-hetzner rpm-pkg
+	$(MAKE) build/post/rocky-experimental/hetzner
+build/rocky-experimental/digitalocean: build/pre/rocky-experimental/digitalocean
+	cd work/rocky-experimental/digitalocean/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-experimental-digitalocean rpm-pkg
+	$(MAKE) build/post/rocky-experimental/digitalocean
+build/rocky-experimental/aws: build/pre/rocky-experimental/aws
+	cd work/rocky-experimental/aws/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-experimental-aws rpm-pkg
+	$(MAKE) build/post/rocky-experimental/aws
+build/rocky-experimental/gcp: build/pre/rocky-experimental/gcp
+	cd work/rocky-experimental/gcp/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-experimental-gcp rpm-pkg
+	$(MAKE) build/post/rocky-experimental/gcp
+build/rocky-experimental/ovh: build/pre/rocky-experimental/ovh
+	cd work/rocky-experimental/ovh/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-experimental-ovh rpm-pkg
+	$(MAKE) build/post/rocky-experimental/ovh
+build/rocky-experimental/azure: build/pre/rocky-experimental/azure
+	cd work/rocky-experimental/azure/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-experimental-azure rpm-pkg
+	$(MAKE) build/post/rocky-experimental/azure
+build/rocky-experimental/civo: build/pre/rocky-experimental/civo
+	cd work/rocky-experimental/civo/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-experimental-civo rpm-pkg
+	$(MAKE) build/post/rocky-experimental/civo
+build/rocky-experimental/linode: build/pre/rocky-experimental/linode
+	cd work/rocky-experimental/linode/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-experimental-linode rpm-pkg
+	$(MAKE) build/post/rocky-experimental/linode
+
+build/alma-experimental/baremetal: build/pre/alma-experimental/baremetal
+	cd work/alma-experimental/baremetal/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-experimental-baremetal rpm-pkg
+	$(MAKE) build/post/alma-experimental/baremetal
+build/alma-experimental/hetzner: build/pre/alma-experimental/hetzner
+	cd work/alma-experimental/hetzner/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-experimental-hetzner rpm-pkg
+	$(MAKE) build/post/alma-experimental/hetzner
+build/alma-experimental/digitalocean: build/pre/alma-experimental/digitalocean
+	cd work/alma-experimental/digitalocean/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-experimental-digitalocean rpm-pkg
+	$(MAKE) build/post/alma-experimental/digitalocean
+build/alma-experimental/aws: build/pre/alma-experimental/aws
+	cd work/alma-experimental/aws/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-experimental-aws rpm-pkg
+	$(MAKE) build/post/alma-experimental/aws
+build/alma-experimental/gcp: build/pre/alma-experimental/gcp
+	cd work/alma-experimental/gcp/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-experimental-gcp rpm-pkg
+	$(MAKE) build/post/alma-experimental/gcp
+build/alma-experimental/ovh: build/pre/alma-experimental/ovh
+	cd work/alma-experimental/ovh/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-experimental-ovh rpm-pkg
+	$(MAKE) build/post/alma-experimental/ovh
+build/alma-experimental/azure: build/pre/alma-experimental/azure
+	cd work/alma-experimental/azure/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-experimental-azure rpm-pkg
+	$(MAKE) build/post/alma-experimental/azure
+build/alma-experimental/linode: build/pre/alma-experimental/linode
+	cd work/alma-experimental/linode/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-experimental-linode rpm-pkg
+	$(MAKE) build/post/alma-experimental/linode
+
+build/amazonlinux-experimental/aws: build/pre/amazonlinux-experimental/aws
+	cd work/amazonlinux-experimental/aws/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-amazonlinux-experimental-aws rpm-pkg
+	$(MAKE) build/post/amazonlinux-experimental/aws
+
 package: $(addprefix package/,$(obj))
 $(addprefix package/pre/,$(obj)):
 	rpm --addsign out/$(subst package/pre/,,$@)/*.rpm
@@ -235,6 +376,35 @@ package/alma/azure: package/pre/alma/azure
 package/alma/linode: package/pre/alma/linode
 
 package/amazonlinux/aws: package/pre/amazonlinux/aws
+
+package/fedora-experimental/baremetal: package/pre/fedora-experimental/baremetal
+package/fedora-experimental/hetzner: package/pre/fedora-experimental/hetzner
+package/fedora-experimental/digitalocean: package/pre/fedora-experimental/digitalocean
+package/fedora-experimental/aws: package/pre/fedora-experimental/aws
+package/fedora-experimental/gcp: package/pre/fedora-experimental/gcp
+package/fedora-experimental/ovh: package/pre/fedora-experimental/ovh
+package/fedora-experimental/linode: package/pre/fedora-experimental/linode
+
+package/rocky-experimental/baremetal: package/pre/rocky-experimental/baremetal
+package/rocky-experimental/hetzner: package/pre/rocky-experimental/hetzner
+package/rocky-experimental/digitalocean: package/pre/rocky-experimental/digitalocean
+package/rocky-experimental/aws: package/pre/rocky-experimental/aws
+package/rocky-experimental/gcp: package/pre/rocky-experimental/gcp
+package/rocky-experimental/ovh: package/pre/rocky-experimental/ovh
+package/rocky-experimental/azure: package/pre/rocky-experimental/azure
+package/rocky-experimental/civo: package/pre/rocky-experimental/civo
+package/rocky-experimental/linode: package/pre/rocky-experimental/linode
+
+package/alma-experimental/baremetal: package/pre/alma-experimental/baremetal
+package/alma-experimental/hetzner: package/pre/alma-experimental/hetzner
+package/alma-experimental/digitalocean: package/pre/alma-experimental/digitalocean
+package/alma-experimental/aws: package/pre/alma-experimental/aws
+package/alma-experimental/gcp: package/pre/alma-experimental/gcp
+package/alma-experimental/ovh: package/pre/alma-experimental/ovh
+package/alma-experimental/azure: package/pre/alma-experimental/azure
+package/alma-experimental/linode: package/pre/alma-experimental/linode
+
+package/amazonlinux-experimental/aws: package/pre/amazonlinux-experimental/aws
 
 clean: $(addprefix clean/,$(obj))
 	rm -rf work/base out
