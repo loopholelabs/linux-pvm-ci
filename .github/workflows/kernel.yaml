@@ -329,7 +329,7 @@ jobs:
           - id: rocky-experimental-linode
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile rocky linode pvm-v6.7-experimental
+            cmd: ./Hydrunfile rocky-experimental linode pvm-v6.7-experimental
             dst: out/*
             runner: depot-ubuntu-22.04-32
 
