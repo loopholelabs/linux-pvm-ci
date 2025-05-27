@@ -7,7 +7,7 @@ obj = fedora/baremetal fedora/hetzner fedora/digitalocean fedora/aws fedora/gcp 
       rocky/baremetal rocky/hetzner rocky/digitalocean rocky/aws rocky/gcp rocky/ovh rocky/azure rocky/civo rocky/linode \
       alma/baremetal alma/hetzner alma/digitalocean alma/aws alma/gcp alma/ovh alma/azure alma/linode \
 	  amazonlinux/aws \
-	  fedora-experimental/baremetal fedora-experimental/hetzner fedora-experimental/digitalocean fedora-experimental/aws fedora/gcp fedora/ovh fedora/linode \
++	  fedora-experimental/baremetal fedora-experimental/hetzner fedora-experimental/digitalocean fedora-experimental/aws fedora-experimental/gcp fedora-experimental/ovh fedora-experimental/linode \
       rocky-experimental/baremetal rocky-experimental/hetzner rocky-experimental/digitalocean rocky-experimental/aws rocky-experimental/gcp rocky-experimental/ovh rocky-experimental/azure rocky-experimental/civo rocky-experimental/linode \
       alma-experimental/baremetal alma-experimental/hetzner alma-experimental/digitalocean alma-experimental/aws alma-experimental/gcp alma-experimental/ovh alma-experimental/azure alma-experimental/linode \
       amazonlinux-experimental/aws
