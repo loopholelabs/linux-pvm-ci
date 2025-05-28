@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 REPO := https://github.com/loopholelabs/linux-pvm.git
 BASEURL := https://loopholelabs.github.io/linux-pvm-ci/
-BRANCH := pvm-v6.7
+COMMIT := 51ee0edb884b3372c168f58244de58507c99b2f7
 
 obj = fedora/baremetal fedora/hetzner fedora/digitalocean fedora/aws fedora/gcp fedora/ovh fedora/linode \
       rocky/baremetal rocky/hetzner rocky/digitalocean rocky/aws rocky/gcp rocky/ovh rocky/azure rocky/civo rocky/linode \
@@ -12,7 +12,8 @@ all: $(addprefix build/,$(obj))
 clone:
 	rm -rf work/base/linux
 	mkdir -p work/base/linux
-	git clone --depth 1 --single-branch --branch ${BRANCH} ${REPO} work/base/linux
+	git clone --depth 1 --no-checkout ${REPO} work/base/linux
+	cd work/base/linux && git fetch --depth 1 origin ${COMMIT} && git checkout ${COMMIT}
 
 copy: $(addprefix copy/,$(obj))
 $(addprefix copy/,$(obj)):
