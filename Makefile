@@ -31,6 +31,7 @@ $(addprefix patch/pre/,$(obj)):
 	cd work/$(subst patch/pre/,,$@)/linux && \
 	 	git apply ../../../../patches/add-typedefs.patch && \
 	 	git apply ../../../../patches/fix-installkernel.patch && \
+		git apply ../../../../patches/use-fixed-pvm-range.patch && \
 	 	git apply ../../../../patches/fix-rpmbuild.patch && \
 	 	git apply ../../../../patches/fix-signing.patch
 
