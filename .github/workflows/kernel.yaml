@@ -84,308 +84,308 @@ jobs:
           - id: fedora-baremetal
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile fedora baremetal pvm-v6.7
+            cmd: ./Hydrunfile fedora baremetal 51ee0edb884b3372c168f58244de58507c99b2f7
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: fedora-hetzner
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile fedora hetzner pvm-v6.7
+            cmd: ./Hydrunfile fedora hetzner 51ee0edb884b3372c168f58244de58507c99b2f7
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: fedora-digitalocean
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile fedora digitalocean pvm-v6.7
+            cmd: ./Hydrunfile fedora digitalocean 51ee0edb884b3372c168f58244de58507c99b2f7
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: fedora-aws
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile fedora aws pvm-v6.7
+            cmd: ./Hydrunfile fedora aws 51ee0edb884b3372c168f58244de58507c99b2f7
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: fedora-gcp
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile fedora gcp pvm-v6.7
+            cmd: ./Hydrunfile fedora gcp 51ee0edb884b3372c168f58244de58507c99b2f7
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: fedora-ovh
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile fedora ovh pvm-v6.7
+            cmd: ./Hydrunfile fedora ovh 51ee0edb884b3372c168f58244de58507c99b2f7
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: fedora-linode
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile fedora linode pvm-v6.7
+            cmd: ./Hydrunfile fedora linode 51ee0edb884b3372c168f58244de58507c99b2f7
             dst: out/*
             runner: depot-ubuntu-22.04-32
 
           - id: rocky-baremetal
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile rocky baremetal pvm-v6.7
+            cmd: ./Hydrunfile rocky baremetal 51ee0edb884b3372c168f58244de58507c99b2f7
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: rocky-hetzner
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile rocky hetzner pvm-v6.7
+            cmd: ./Hydrunfile rocky hetzner 51ee0edb884b3372c168f58244de58507c99b2f7
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: rocky-digitalocean
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile rocky digitalocean pvm-v6.7
+            cmd: ./Hydrunfile rocky digitalocean 51ee0edb884b3372c168f58244de58507c99b2f7
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: rocky-aws
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile rocky aws pvm-v6.7
+            cmd: ./Hydrunfile rocky aws 51ee0edb884b3372c168f58244de58507c99b2f7
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: rocky-gcp
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile rocky gcp pvm-v6.7
+            cmd: ./Hydrunfile rocky gcp 51ee0edb884b3372c168f58244de58507c99b2f7
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: rocky-ovh
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile rocky ovh pvm-v6.7
+            cmd: ./Hydrunfile rocky ovh 51ee0edb884b3372c168f58244de58507c99b2f7
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: rocky-azure
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile rocky azure pvm-v6.7
+            cmd: ./Hydrunfile rocky azure 51ee0edb884b3372c168f58244de58507c99b2f7
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: rocky-civo
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile rocky civo pvm-v6.7
+            cmd: ./Hydrunfile rocky civo 51ee0edb884b3372c168f58244de58507c99b2f7
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: rocky-linode
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile rocky linode pvm-v6.7
+            cmd: ./Hydrunfile rocky linode 51ee0edb884b3372c168f58244de58507c99b2f7
             dst: out/*
             runner: depot-ubuntu-22.04-32
 
           - id: alma-baremetal
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile alma baremetal pvm-v6.7
+            cmd: ./Hydrunfile alma baremetal 51ee0edb884b3372c168f58244de58507c99b2f7
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: alma-hetzner
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile alma hetzner pvm-v6.7
+            cmd: ./Hydrunfile alma hetzner 51ee0edb884b3372c168f58244de58507c99b2f7
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: alma-digitalocean
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile alma digitalocean pvm-v6.7
+            cmd: ./Hydrunfile alma digitalocean 51ee0edb884b3372c168f58244de58507c99b2f7
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: alma-aws
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile alma aws pvm-v6.7
+            cmd: ./Hydrunfile alma aws 51ee0edb884b3372c168f58244de58507c99b2f7
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: alma-gcp
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile alma gcp pvm-v6.7
+            cmd: ./Hydrunfile alma gcp 51ee0edb884b3372c168f58244de58507c99b2f7
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: alma-ovh
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile alma ovh pvm-v6.7
+            cmd: ./Hydrunfile alma ovh 51ee0edb884b3372c168f58244de58507c99b2f7
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: alma-azure
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile alma azure pvm-v6.7
+            cmd: ./Hydrunfile alma azure 51ee0edb884b3372c168f58244de58507c99b2f7
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: alma-linode
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile alma linode pvm-v6.7
+            cmd: ./Hydrunfile alma linode 51ee0edb884b3372c168f58244de58507c99b2f7
             dst: out/*
             runner: depot-ubuntu-22.04-32
           
           - id: amazonlinux-aws
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile amazonlinux aws pvm-v6.7
+            cmd: ./Hydrunfile amazonlinux aws 51ee0edb884b3372c168f58244de58507c99b2f7
             dst: out/*
             runner: depot-ubuntu-22.04-32
 
           - id: fedora-experimental-baremetal
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile fedora-experimental baremetal pvm-v6.7-experimental
+            cmd: ./Hydrunfile fedora-experimental baremetal b2a745b7337bcc8277df1033fbf453245f7ea110
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: fedora-experimental-hetzner
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile fedora-experimental hetzner pvm-v6.7-experimental
+            cmd: ./Hydrunfile fedora-experimental hetzner b2a745b7337bcc8277df1033fbf453245f7ea110
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: fedora-experimental-digitalocean
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile fedora-experimental digitalocean pvm-v6.7-experimental
+            cmd: ./Hydrunfile fedora-experimental digitalocean b2a745b7337bcc8277df1033fbf453245f7ea110
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: fedora-experimental-aws
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile fedora-experimental aws pvm-v6.7-experimental
+            cmd: ./Hydrunfile fedora-experimental aws b2a745b7337bcc8277df1033fbf453245f7ea110
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: fedora-experimental-gcp
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile fedora-experimental gcp pvm-v6.7-experimental
+            cmd: ./Hydrunfile fedora-experimental gcp b2a745b7337bcc8277df1033fbf453245f7ea110
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: fedora-experimental-ovh
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile fedora-experimental ovh pvm-v6.7-experimental
+            cmd: ./Hydrunfile fedora-experimental ovh b2a745b7337bcc8277df1033fbf453245f7ea110
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: fedora-experimental-linode
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile fedora-experimental linode pvm-v6.7-experimental
+            cmd: ./Hydrunfile fedora-experimental linode b2a745b7337bcc8277df1033fbf453245f7ea110
             dst: out/*
             runner: depot-ubuntu-22.04-32
 
           - id: rocky-experimental-baremetal
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile rocky-experimental baremetal pvm-v6.7-experimental
+            cmd: ./Hydrunfile rocky-experimental baremetal b2a745b7337bcc8277df1033fbf453245f7ea110
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: rocky-experimental-hetzner
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile rocky-experimental hetzner pvm-v6.7-experimental
+            cmd: ./Hydrunfile rocky-experimental hetzner b2a745b7337bcc8277df1033fbf453245f7ea110
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: rocky-experimental-digitalocean
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile rocky-experimental digitalocean pvm-v6.7-experimental
+            cmd: ./Hydrunfile rocky-experimental digitalocean b2a745b7337bcc8277df1033fbf453245f7ea110
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: rocky-experimental-aws
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile rocky-experimental aws pvm-v6.7-experimental
+            cmd: ./Hydrunfile rocky-experimental aws b2a745b7337bcc8277df1033fbf453245f7ea110
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: rocky-experimental-gcp
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile rocky-experimental gcp pvm-v6.7-experimental
+            cmd: ./Hydrunfile rocky-experimental gcp b2a745b7337bcc8277df1033fbf453245f7ea110
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: rocky-experimental-ovh
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile rocky-experimental ovh pvm-v6.7-experimental
+            cmd: ./Hydrunfile rocky-experimental ovh b2a745b7337bcc8277df1033fbf453245f7ea110
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: rocky-experimental-azure
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile rocky-experimental azure pvm-v6.7-experimental
+            cmd: ./Hydrunfile rocky-experimental azure b2a745b7337bcc8277df1033fbf453245f7ea110
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: rocky-experimental-civo
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile rocky-experimental civo pvm-v6.7-experimental
+            cmd: ./Hydrunfile rocky-experimental civo b2a745b7337bcc8277df1033fbf453245f7ea110
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: rocky-experimental-linode
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile rocky-experimental linode pvm-v6.7-experimental
+            cmd: ./Hydrunfile rocky-experimental linode b2a745b7337bcc8277df1033fbf453245f7ea110
             dst: out/*
             runner: depot-ubuntu-22.04-32
 
           - id: alma-experimental-baremetal
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile alma-experimental baremetal pvm-v6.7-experimental
+            cmd: ./Hydrunfile alma-experimental baremetal b2a745b7337bcc8277df1033fbf453245f7ea110
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: alma-experimental-hetzner
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile alma-experimental hetzner pvm-v6.7-experimental
+            cmd: ./Hydrunfile alma-experimental hetzner b2a745b7337bcc8277df1033fbf453245f7ea110
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: alma-experimental-digitalocean
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile alma-experimental digitalocean pvm-v6.7-experimental
+            cmd: ./Hydrunfile alma-experimental digitalocean b2a745b7337bcc8277df1033fbf453245f7ea110
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: alma-experimental-aws
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile alma-experimental aws pvm-v6.7-experimental
+            cmd: ./Hydrunfile alma-experimental aws b2a745b7337bcc8277df1033fbf453245f7ea110
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: alma-experimental-gcp
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile alma-experimental gcp pvm-v6.7-experimental
+            cmd: ./Hydrunfile alma-experimental gcp b2a745b7337bcc8277df1033fbf453245f7ea110
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: alma-experimental-ovh
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile alma-experimental ovh pvm-v6.7-experimental
+            cmd: ./Hydrunfile alma-experimental ovh b2a745b7337bcc8277df1033fbf453245f7ea110
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: alma-experimental-azure
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile alma-experimental azure pvm-v6.7-experimental
+            cmd: ./Hydrunfile alma-experimental azure b2a745b7337bcc8277df1033fbf453245f7ea110
             dst: out/*
             runner: depot-ubuntu-22.04-32
           - id: alma-experimental-linode
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile alma-experimental linode pvm-v6.7-experimental
+            cmd: ./Hydrunfile alma-experimental linode b2a745b7337bcc8277df1033fbf453245f7ea110
             dst: out/*
             runner: depot-ubuntu-22.04-32
 
           - id: amazonlinux-experimental-aws
             src: .
             os: ghcr.io/loopholelabs/linux-pvm-ci-build-base:main
-            cmd: ./Hydrunfile amazonlinux-experimental aws pvm-v6.7-experimental
+            cmd: ./Hydrunfile amazonlinux-experimental aws b2a745b7337bcc8277df1033fbf453245f7ea110
             dst: out/*
             runner: depot-ubuntu-22.04-32
 
