@@ -1,7 +1,8 @@
 SHELL := /bin/bash
 REPO := https://github.com/loopholelabs/linux-pvm.git
 BASEURL := https://loopholelabs.github.io/linux-pvm-ci/
-BRANCH := pvm-v6.7
+COMMIT := 51ee0edb884b3372c168f58244de58507c99b2f7
+COMMIT_SHORT := $(shell echo ${COMMIT} | head -c 12)
 
 obj = fedora/baremetal fedora/hetzner fedora/digitalocean fedora/aws fedora/gcp fedora/ovh fedora/linode \
       rocky/baremetal rocky/hetzner rocky/digitalocean rocky/aws rocky/gcp rocky/ovh rocky/azure rocky/civo rocky/linode \
@@ -12,7 +13,8 @@ all: $(addprefix build/,$(obj))
 clone:
 	rm -rf work/base/linux
 	mkdir -p work/base/linux
-	git clone --depth 1 --single-branch --branch ${BRANCH} ${REPO} work/base/linux
+	git clone --depth 1 --no-checkout ${REPO} work/base/linux
+	cd work/base/linux && git fetch --depth 1 origin ${COMMIT} && git checkout ${COMMIT}
 
 copy: $(addprefix copy/,$(obj))
 $(addprefix copy/,$(obj)):
@@ -117,82 +119,82 @@ $(addprefix build/post/,$(obj)):
 	cp work/$(subst build/post/,,$@)/linux/rpmbuild/RPMS/x86_64/*.rpm out/$(subst build/post/,,$@)
 
 build/fedora/baremetal: build/pre/fedora/baremetal
-	cd work/fedora/baremetal/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-fedora-baremetal rpm-pkg
+	cd work/fedora/baremetal/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-fedora-baremetal-${COMMIT_SHORT} rpm-pkg
 	$(MAKE) build/post/fedora/baremetal
 build/fedora/hetzner: build/pre/fedora/hetzner
-	cd work/fedora/hetzner/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-fedora-hetzner rpm-pkg
+	cd work/fedora/hetzner/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-fedora-hetzner-${COMMIT_SHORT} rpm-pkg
 	$(MAKE) build/post/fedora/hetzner
 build/fedora/digitalocean: build/pre/fedora/digitalocean
-	cd work/fedora/digitalocean/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-fedora-digitalocean rpm-pkg
+	cd work/fedora/digitalocean/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-fedora-digitalocean-${COMMIT_SHORT} rpm-pkg
 	$(MAKE) build/post/fedora/digitalocean
 build/fedora/aws: build/pre/fedora/aws
-	cd work/fedora/aws/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-fedora-aws rpm-pkg
+	cd work/fedora/aws/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-fedora-aws-${COMMIT_SHORT} rpm-pkg
 	$(MAKE) build/post/fedora/aws
 build/fedora/gcp: build/pre/fedora/gcp
-	cd work/fedora/gcp/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-fedora-gcp rpm-pkg
+	cd work/fedora/gcp/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-fedora-gcp-${COMMIT_SHORT} rpm-pkg
 	$(MAKE) build/post/fedora/gcp
 build/fedora/ovh: build/pre/fedora/ovh
-	cd work/fedora/ovh/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-fedora-ovh rpm-pkg
+	cd work/fedora/ovh/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-fedora-ovh-${COMMIT_SHORT} rpm-pkg
 	$(MAKE) build/post/fedora/ovh
 build/fedora/linode: build/pre/fedora/linode
-	cd work/fedora/linode/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-fedora-linode rpm-pkg
+	cd work/fedora/linode/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-fedora-linode-${COMMIT_SHORT} rpm-pkg
 	$(MAKE) build/post/fedora/linode
 
 build/rocky/baremetal: build/pre/rocky/baremetal
-	cd work/rocky/baremetal/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-baremetal rpm-pkg
+	cd work/rocky/baremetal/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-baremetal-${COMMIT_SHORT} rpm-pkg
 	$(MAKE) build/post/rocky/baremetal
 build/rocky/hetzner: build/pre/rocky/hetzner
-	cd work/rocky/hetzner/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-hetzner rpm-pkg
+	cd work/rocky/hetzner/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-hetzner-${COMMIT_SHORT} rpm-pkg
 	$(MAKE) build/post/rocky/hetzner
 build/rocky/digitalocean: build/pre/rocky/digitalocean
-	cd work/rocky/digitalocean/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-digitalocean rpm-pkg
+	cd work/rocky/digitalocean/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-digitalocean-${COMMIT_SHORT} rpm-pkg
 	$(MAKE) build/post/rocky/digitalocean
 build/rocky/aws: build/pre/rocky/aws
-	cd work/rocky/aws/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-aws rpm-pkg
+	cd work/rocky/aws/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-aws-${COMMIT_SHORT} rpm-pkg
 	$(MAKE) build/post/rocky/aws
 build/rocky/gcp: build/pre/rocky/gcp
-	cd work/rocky/gcp/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-gcp rpm-pkg
+	cd work/rocky/gcp/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-gcp-${COMMIT_SHORT} rpm-pkg
 	$(MAKE) build/post/rocky/gcp
 build/rocky/ovh: build/pre/rocky/ovh
-	cd work/rocky/ovh/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-ovh rpm-pkg
+	cd work/rocky/ovh/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-ovh-${COMMIT_SHORT} rpm-pkg
 	$(MAKE) build/post/rocky/ovh
 build/rocky/azure: build/pre/rocky/azure
-	cd work/rocky/azure/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-azure rpm-pkg
+	cd work/rocky/azure/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-azure-${COMMIT_SHORT} rpm-pkg
 	$(MAKE) build/post/rocky/azure
 build/rocky/civo: build/pre/rocky/civo
-	cd work/rocky/civo/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-civo rpm-pkg
+	cd work/rocky/civo/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-civo-${COMMIT_SHORT} rpm-pkg
 	$(MAKE) build/post/rocky/civo
 build/rocky/linode: build/pre/rocky/linode
-	cd work/rocky/linode/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-linode rpm-pkg
+	cd work/rocky/linode/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-rocky-linode-${COMMIT_SHORT} rpm-pkg
 	$(MAKE) build/post/rocky/linode
 
 build/alma/baremetal: build/pre/alma/baremetal
-	cd work/alma/baremetal/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-baremetal rpm-pkg
+	cd work/alma/baremetal/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-baremetal-${COMMIT_SHORT} rpm-pkg
 	$(MAKE) build/post/alma/baremetal
 build/alma/hetzner: build/pre/alma/hetzner
-	cd work/alma/hetzner/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-hetzner rpm-pkg
+	cd work/alma/hetzner/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-hetzner-${COMMIT_SHORT} rpm-pkg
 	$(MAKE) build/post/alma/hetzner
 build/alma/digitalocean: build/pre/alma/digitalocean
-	cd work/alma/digitalocean/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-digitalocean rpm-pkg
+	cd work/alma/digitalocean/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-digitalocean-${COMMIT_SHORT} rpm-pkg
 	$(MAKE) build/post/alma/digitalocean
 build/alma/aws: build/pre/alma/aws
-	cd work/alma/aws/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-aws rpm-pkg
+	cd work/alma/aws/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-aws-${COMMIT_SHORT} rpm-pkg
 	$(MAKE) build/post/alma/aws
 build/alma/gcp: build/pre/alma/gcp
-	cd work/alma/gcp/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-gcp rpm-pkg
+	cd work/alma/gcp/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-gcp-${COMMIT_SHORT} rpm-pkg
 	$(MAKE) build/post/alma/gcp
 build/alma/ovh: build/pre/alma/ovh
-	cd work/alma/ovh/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-ovh rpm-pkg
+	cd work/alma/ovh/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-ovh-${COMMIT_SHORT} rpm-pkg
 	$(MAKE) build/post/alma/ovh
 build/alma/azure: build/pre/alma/azure
-	cd work/alma/azure/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-azure rpm-pkg
+	cd work/alma/azure/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-azure-${COMMIT_SHORT} rpm-pkg
 	$(MAKE) build/post/alma/azure
 build/alma/linode: build/pre/alma/linode
-	cd work/alma/linode/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-linode rpm-pkg
+	cd work/alma/linode/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-alma-linode-${COMMIT_SHORT} rpm-pkg
 	$(MAKE) build/post/alma/linode
 
 build/amazonlinux/aws: build/pre/amazonlinux/aws
-	cd work/amazonlinux/aws/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-amazonlinux-aws rpm-pkg
+	cd work/amazonlinux/aws/linux && yes "" | KBUILD_BUILD_TIMESTAMP="" $(MAKE) CC="ccache gcc" LOCALVERSION= EXTRAVERSION=-pvm-host-amazonlinux-aws-${COMMIT_SHORT} rpm-pkg
 	$(MAKE) build/post/amazonlinux/aws
 
 package: $(addprefix package/,$(obj))
