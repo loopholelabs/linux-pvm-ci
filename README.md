@@ -14,7 +14,7 @@ This project builds the Linux kernel as RPM packages for various Linux distros a
 
 ## Installation
 
-> Replace all occurrences of `fedora` to your distribution of choice (valid values are: `fedora`, `rocky`, `alma`, `amazonlinux`) and `hetzner` to your cloud provider of choice (valid values are: `baremetal`, `hetzner`, `digitalocean`, `aws`, `gcp`, `ovh`, `azure`, `civo`, `linode`). Note that Amazon Linux is only supported on some AWS instance types (e.g. `t2.micro`) and known to fail to boot on others (`c6a.xlarge`).
+> Replace all occurrences of `fedora` to your distribution of choice (valid values are: `fedora`, `rocky`, `alma`, `amazonlinux`) and `hetzner` to your cloud provider of choice (valid values are: `baremetal`, `hetzner`, `digitalocean`, `aws`, `gcp`, `ovh`, `azure`, `civo`, `linode`). Note that Amazon Linux is only supported on some AWS instance types (e.g. `t2.micro`) and known to fail to boot on others (`c6a.xlarge`). In addition to these, there are also experimental versions of the PVM kernel with more advanced performance tuning, but potentially less stability; these are named `${distro}-experimental`, e.g. `fedora-experimental`.
 
 > Note that saving and restoring a snapshot between 4-level paging mode hosts (such as older AWS machine models) and 5-level paging mode hosts (such as newer GCP machine models) is not possible at this time (see [https://github.com/virt-pvm/linux/issues/6#issuecomment-2076990347](https://github.com/virt-pvm/linux/issues/6#issuecomment-2076990347))
 
